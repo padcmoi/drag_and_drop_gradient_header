@@ -67,6 +67,7 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
     document.getElementById("z-index-text-slider").value = span.style.zIndex;
 
     document.getElementById("change-font-family").value = span.style.fontFamily.replace(/['"]/g, "");
+    document.getElementById("bold-text-level").value = span.style.fontWeight || "normal";
   });
 
   // Control the size with the mouse wheel
@@ -126,5 +127,13 @@ document.getElementById("z-index-text-slider").addEventListener("input", functio
   if (selectedSpan) {
     selectedSpan.style.zIndex = this.value;
     document.getElementById("z-index-text-value").textContent = `Ordre d'affichage: ${this.value}`;
+  }
+});
+
+// Change font weight
+document.getElementById("bold-text-level").addEventListener("input", function () {
+  const selectedSpan = document.querySelector("#container-draggable-el span.selected");
+  if (selectedSpan) {
+    selectedSpan.style.fontWeight = this.value;
   }
 });
