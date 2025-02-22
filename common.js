@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tripleColorCheckbox = document.getElementById("triple-color-checkbox");
   const containerDraggableEl = document.getElementById("container-draggable-el");
   const heightValueLabel = document.getElementById("height-value-label");
+  const heightContainerValue = document.getElementById("height-container-value");
 
   if (startColorPicker) startColorPicker.value = loadCommonState("startColor", "#ff7e5f") || "#ff7e5f";
   if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (containerDraggableEl) containerDraggableEl.style.height = loadCommonState("containerHeight", "300px") || "300px";
   if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", "300px") || "300px";
   if (heightSlider) heightSlider.value = parseInt(loadCommonState("containerHeight", "300px")) || 300;
+  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "px";
   if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
   if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
   if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
