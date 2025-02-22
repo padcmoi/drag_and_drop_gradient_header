@@ -145,6 +145,10 @@
       *[draggable="true"]:active {
         cursor: grabbing;
       }
+      input[type="checkbox"],
+      .lock-label {
+        cursor: pointer;
+      }
       .selected {
         border: 5px solid rgb(0, 255, 132);
       }
@@ -268,7 +272,13 @@
               </div>
               <label id="rotate-text-value" for="height-text-slider">Rotation: 0°</label>
               <div>
-                <input type="range" id="rotate-text-slider" min="0" max="359" value="0" class="input-style" />
+                <div style="display: flex; align-items: center">
+                  <input type="range" id="rotate-text-slider" min="-180" max="180" value="0" class="input-style" oninput="applyRotationBrakeEffect(this)" />
+                  <label for="lock-checkbox" class="lock-label" style="display: flex; align-items: center; margin-left: 10px" onclick="lockRotationBrakeEffect(this)">
+                    <span class="lock-icon">🔒</span>
+                    <span class="unlock-icon d-none">🔓</span>
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -295,7 +305,13 @@
               </div>
               <label id="rotate-image-value" for="rotate-image-slider">Rotation: 0°</label>
               <div>
-                <input type="range" id="rotate-image-slider" min="0" max="359" value="0" class="input-style" />
+                <div style="display: flex; align-items: center">
+                  <input type="range" id="rotate-image-slider" min="-180" max="180" value="0" class="input-style" oninput="applyRotationBrakeEffect(this)" />
+                  <label for="lock-checkbox" class="lock-label" style="display: flex; align-items: center; margin-left: 10px" onclick="lockRotationBrakeEffect(this)">
+                    <span class="lock-icon">🔒</span>
+                    <span class="unlock-icon d-none">🔓</span>
+                  </label>
+                </div>
               </div>
             </div>
 

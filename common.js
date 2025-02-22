@@ -144,3 +144,32 @@ document.addEventListener("paste", (event) => {
     }
   }
 });
+
+// Applies a braking effect to the rotation of a slider.
+let rotationBrakeEnabled = true;
+function applyRotationBrakeEffect(slider) {
+  if (!rotationBrakeEnabled) return;
+
+  const brakePoints = [0, 45, 90, -45, -90];
+  brakePoints.forEach((point) => {
+    if (Math.abs(slider.value - point) < 10) {
+      slider.value = point;
+    }
+  });
+  slider.dispatchEvent(new Event("change"));
+}
+
+function lockRotationBrakeEffect(label) {
+  const lockIcon = label.querySelector(".lock-icon");
+  const unlockIcon = label.querySelector(".unlock-icon");
+
+  if (rotationBrakeEnabled) {
+    rotationBrakeEnabled = false;
+    lockIcon.style.display = "none";
+    unlockIcon.style.display = "inline";
+  } else {
+    rotationBrakeEnabled = true;
+    lockIcon.style.display = "inline";
+    unlockIcon.style.display = "none";
+  }
+}
