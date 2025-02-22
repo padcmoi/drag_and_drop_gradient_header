@@ -27,6 +27,8 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
   selectMenu("select-text-menu");
   span.style.color = document.getElementById("change-color-message").value;
   document.getElementById("change-text-message").value = textSelected;
+  span.style.fontFamily = document.getElementById("change-font-family")?.value ?? "";
+  loadGoogleFont(document.getElementById("change-font-family")?.value ?? "");
 
   span.addEventListener("dragstart", function (e) {
     e.dataTransfer.setData("text/plain", null);
@@ -63,6 +65,8 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
 
     document.getElementById("z-index-text-value").textContent = `Ordre d'affichage: ${span.style.zIndex}`;
     document.getElementById("z-index-text-slider").value = span.style.zIndex;
+
+    document.getElementById("change-font-family").value = span.style.fontFamily.replace(/['"]/g, "");
   });
 
   // Control the size with the mouse wheel

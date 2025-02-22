@@ -173,3 +173,71 @@ function lockRotationBrakeEffect(label) {
     unlockIcon.style.display = "none";
   }
 }
+
+// handle google fonts
+const GOOGLE_FONT_FAMILIES = [{ family: "", category: "", selected: false, disabled: true }];
+
+document.addEventListener("DOMContentLoaded", async function () {
+  try {
+    // or you can use the Google API, requires an apiKey
+    // today, I have retrieved 1806 fonts
+    // https://www.googleapis.com/webfonts/v1/webfonts?key=
+    const response = await fetch("./google-fonts.json");
+    const data = await response.json();
+    data.forEach((font) => {
+      GOOGLE_FONT_FAMILIES.push({
+        ...font,
+        selected: font.family == "Permanent Marker" ? true : false,
+        disabled: false,
+      });
+    });
+  } catch (error) {
+    console.error("Error loading Google Fonts:", error);
+  }
+
+  console.info("google fonts loaded: ", GOOGLE_FONT_FAMILIES.length - 1);
+
+  const fontSelect = document.getElementById("change-font-family");
+
+  GOOGLE_FONT_FAMILIES.forEach((font) => {
+    const option = document.createElement("option");
+    option.value = font.family;
+    option.textContent = font.family;
+    if (font.selected) option.selected = true;
+    if (font.disabled) option.disabled = true;
+
+    fontSelect.appendChild(option);
+  });
+});
+
+function changeGoogleFontFamily(selectElement) {
+  const selectedSpan = document.querySelector("#container-draggable-el span.selected");
+  if (selectedSpan) {
+    selectedSpan.style.fontFamily = selectElement.value;
+    loadGoogleFont(selectElement.value);
+  }
+}
+
+function loadGoogleFont(fontName) {
+  const linkId = `google-font-family-id-${fontName.replace(/ /g, "-")}`;
+  if (!document.getElementById(linkId)) {
+    const newLink = document.createElement("link");
+    newLink.id = linkId;
+    newLink.rel = "stylesheet";
+    newLink.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, "+")}&display=swap`;
+    document.head.appendChild(newLink);
+  }
+
+  // remove unused fonts ...
+  const usedFonts = [];
+  usedFonts.push(fontName.replace(/['"]/g, ""));
+  document.querySelectorAll("#container-draggable-el span").forEach((span) => {
+    const font = span.style.fontFamily.replace(/['"]/g, "");
+    if (!usedFonts.includes(font)) usedFonts.push(font);
+  });
+
+  document.querySelectorAll('link[id^="google-font-family-id-"]').forEach((link) => {
+    const fontName = link.id.replace("google-font-family-id-", "").replace(/-/g, " ");
+    if (!usedFonts.includes(fontName)) link.remove();
+  });
+}

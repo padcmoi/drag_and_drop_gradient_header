@@ -28,7 +28,7 @@
       .custom-text {
         font-size: 28px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        font-family: "Permanent Marker", cursive;
+        white-space: nowrap;
       }
 
       .d-none {
@@ -153,7 +153,8 @@
         border: 5px solid rgb(0, 255, 132);
       }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Permanent+Marker&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
     <!-- Element to download -->
@@ -252,16 +253,7 @@
             <div>
               Google font:
               <div>
-                <select id="change-font-family" class="input-style">
-                  <option value="Lobster">Lobster</option>
-                  <option value="Permanent Marker" selected>Permanent Marker</option>
-                  <option value="Arial">Arial</option>
-                  <option value="Verdana">Verdana</option>
-                  <option value="Helvetica">Helvetica</option>
-                  <option value="Times New Roman">Times New Roman</option>
-                  <option value="Comic Sans MS">Comic Sans MS</option>
-                  <option value="Impact">Impact</option>
-                </select>
+                <select id="change-font-family" class="input-style" onchange="changeGoogleFontFamily(this)"></select>
               </div>
             </div>
 
