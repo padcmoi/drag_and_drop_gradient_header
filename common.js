@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
   if (orientationSelect) orientationSelect.value = loadCommonState("orientation", "to right") || "to right";
   if (tripleColorCheckbox) tripleColorCheckbox.checked = loadCommonState("tripleColorState", "false") === "true";
-  if (containerDraggableEl) containerDraggableEl.style.height = loadCommonState("containerHeight", "300px") || "300px";
-  if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", "300px") || "300px";
-  if (heightSlider) heightSlider.value = parseInt(loadCommonState("containerHeight", "300px")) || 300;
-  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "px";
+  if (containerDraggableEl) containerDraggableEl.style.height = loadCommonState("containerHeight", "70vh") || "70vh";
+  if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", "70vh") || "70vh";
+  heightSlider.value = parseInt(loadCommonState("containerHeight", "70vh")) || 70;
+  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "vh";
   if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
   if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
   if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
@@ -125,13 +125,10 @@ document.getElementById("orientation-select").addEventListener("change", functio
 // Change rectangle height
 const heightSlider = document.getElementById("height-container-slider");
 const heightValueLabel = document.getElementById("height-container-value");
-const maxHeight = window.innerHeight;
-window.addEventListener("resize", function () {
-  heightSlider.max = window.innerHeight;
-});
-heightSlider.max = window.innerHeight;
+
+heightSlider.max = 100;
 heightSlider.addEventListener("input", function () {
-  const height = this.value + "px";
+  const height = this.value + "vh";
   document.getElementById("container-draggable-el").style.height = height;
   heightValueLabel.textContent = height;
 
