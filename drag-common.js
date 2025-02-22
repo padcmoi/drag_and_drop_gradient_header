@@ -33,6 +33,7 @@ document.addEventListener("keydown", function (e) {
     const selectedImage = document.querySelector("#container-draggable-el img.selected");
     if (selectedImage) {
       selectedImage.remove();
+      saveImgState();
       selectMenu("_keydown");
     }
   }
@@ -41,6 +42,7 @@ document.addEventListener("keydown", function (e) {
     const selectedSpan = document.querySelector("#container-draggable-el span.selected");
     if (selectedSpan) {
       selectedSpan.remove();
+      saveTextState();
       selectMenu("_keydown");
     }
   }

@@ -46,6 +46,7 @@
         overflow: hidden;
         max-height: 0;
         min-height: 70px;
+        z-index: 9999;
       }
       .menu.open {
         max-height: 300px;
@@ -172,10 +173,15 @@
         <div id="default-menu">
           <div class="container">
             <div>
+              <div>Hauteur container: <span id="height-container-value">300px</span></div>
+              <div>
+                <input type="range" id="height-container-slider" min="100" max="600" value="300" class="input-style" />
+              </div>
+
               <div>Dégradé: <input type="checkbox" id="triple-color-checkbox" onchange="toggleMiddleColorPicker()" /></div>
               <div>
                 <input type="color" id="start-color-picker" value="#ff7e5f" class="color-picker" />
-                <input type="color" id="middle-color-picker" value="#ffffff00" class="color-picker" disabled />
+                <input type="color" id="middle-color-picker" value="#ffffff" class="color-picker" disabled />
                 <input type="color" id="end-color-picker" value="#feb47b" class="color-picker" />
               </div>
               <div>
@@ -193,10 +199,7 @@
             </div>
 
             <div>
-              <div>Hauteur container: <span id="height-container-value">300px</span></div>
-              <div>
-                <input type="range" id="height-container-slider" min="100" max="600" value="300" class="input-style" />
-              </div>
+              <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
             </div>
 
             <div>
@@ -214,7 +217,13 @@
             </div>
 
             <div>
-              <div><button onclick="selectMenu('add-text-menu')">Ajouter un texte</button></div>
+              localStorage:
+              <div>
+                <button onclick="loadLocalStorage()">Charger</button>
+                <button onclick="clearLocalStorage()">Effacer</button>
+                <button onclick="saveLocalStorage()">Sauvegarder</button>
+              </div>
+
               <div><button id="download-btn">Télécharger</button></div>
             </div>
           </div>

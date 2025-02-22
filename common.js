@@ -1,3 +1,37 @@
+// Load saved values from localStorage
+document.addEventListener("DOMContentLoaded", function () {
+  const startColorPicker = document.getElementById("start-color-picker");
+  const middleColorPicker = document.getElementById("middle-color-picker");
+  const endColorPicker = document.getElementById("end-color-picker");
+  const orientationSelect = document.getElementById("orientation-select");
+  const tripleColorCheckbox = document.getElementById("triple-color-checkbox");
+  const containerDraggableEl = document.getElementById("container-draggable-el");
+  const heightValueLabel = document.getElementById("height-value-label");
+
+  if (startColorPicker) startColorPicker.value = loadCommonState("startColor", "#ff7e5f") || "#ff7e5f";
+  if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
+  if (orientationSelect) orientationSelect.value = loadCommonState("orientation", "to right") || "to right";
+  if (tripleColorCheckbox) tripleColorCheckbox.checked = loadCommonState("tripleColorState", "false") === "true";
+  if (containerDraggableEl) containerDraggableEl.style.height = loadCommonState("containerHeight", "300px") || "300px";
+  if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", "300px") || "300px";
+  if (heightSlider) heightSlider.value = parseInt(loadCommonState("containerHeight", "300px")) || 300;
+  if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
+  if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
+  if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
+
+  // Call updateColorGradient after loading values
+  updateColorGradient();
+});
+
+// Save and load functions
+function saveCommonState(key, value) {
+  localStorage.setItem(key, value);
+}
+
+function loadCommonState(key, defaultValue) {
+  return localStorage.getItem(key) || defaultValue;
+}
+
 // Menu
 const toggleMenu = () => document.getElementById("menu").classList.toggle("open");
 toggleMenu();
@@ -40,6 +74,7 @@ function getHexColor(element) {
 function toggleMiddleColorPicker() {
   const middleColorPicker = document.getElementById("middle-color-picker");
   middleColorPicker.disabled = !middleColorPicker.disabled;
+  saveCommonState("middleColorPickerDisabled", middleColorPicker.disabled);
   updateColorGradient();
 }
 
@@ -53,8 +88,14 @@ function updateColorGradient() {
 
   const gradient = state ? `linear-gradient(${orientation}, ${startColor}, ${middleColor}, ${endColor})` : `linear-gradient(${orientation}, ${startColor}, ${endColor})`;
   document.getElementById("container-draggable-el").style.background = gradient;
+
+  // Save to localStorage
+  saveCommonState("startColor", startColor);
+  saveCommonState("middleColor", middleColor);
+  saveCommonState("endColor", endColor);
+  saveCommonState("orientation", orientation);
+  saveCommonState("tripleColorState", state);
 }
-updateColorGradient();
 
 document.getElementById("middle-color-picker").addEventListener("input", function () {
   updateColorGradient();
@@ -81,6 +122,9 @@ heightSlider.addEventListener("input", function () {
   const height = this.value + "px";
   document.getElementById("container-draggable-el").style.height = height;
   heightValueLabel.textContent = height;
+
+  // Save to localStorage
+  saveCommonState("containerHeight", height);
 });
 
 // Download
@@ -214,6 +258,7 @@ function changeGoogleFontFamily(selectElement) {
   const selectedSpan = document.querySelector("#container-draggable-el span.selected");
   if (selectedSpan) {
     selectedSpan.style.fontFamily = selectElement.value;
+    saveTextState();
     loadGoogleFont(selectElement.value);
   }
 }
@@ -240,4 +285,51 @@ function loadGoogleFont(fontName) {
     const fontName = link.id.replace("google-font-family-id-", "").replace(/-/g, " ");
     if (!usedFonts.includes(fontName)) link.remove();
   });
+}
+
+// save, load and reset data
+function clearLocalStorage() {
+  localStorage.clear();
+
+  location.reload();
+}
+function saveLocalStorage() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    data[key] = localStorage.getItem(key);
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "header_gradient_app_data.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function loadLocalStorage() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json";
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          for (const key in data) {
+            localStorage.setItem(key, data[key]);
+          }
+          alert("Le localStorage a été chargé.");
+          location.reload();
+        } catch (error) {
+          alert("Erreur lors du chargement du fichier JSON.");
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+  input.click();
 }
