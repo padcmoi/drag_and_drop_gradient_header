@@ -23,6 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Call updateColorGradient after loading values
   updateColorGradient();
+
+  const menu = document.getElementById("menu");
+  if (loadCommonState("menuOpen", "false") === "true") {
+    menu.classList.add("open");
+  } else {
+    menu.classList.remove("open");
+  }
 });
 
 // Save and load functions
@@ -35,8 +42,11 @@ function loadCommonState(key, defaultValue) {
 }
 
 // Menu
-const toggleMenu = () => document.getElementById("menu").classList.toggle("open");
-toggleMenu();
+const toggleMenu = () => {
+  const menu = document.getElementById("menu");
+  menu.classList.toggle("open");
+  saveCommonState("menuOpen", menu.classList.contains("open"));
+};
 
 function selectMenu(menuId) {
   ["default-menu", "add-text-menu", "select-text-menu", "select-image-menu"].forEach((id) => document.getElementById(id).classList.add("d-none"));
