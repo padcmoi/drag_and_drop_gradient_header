@@ -21,3 +21,18 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 ### Removed
+
+## [v1.0.0]
+
+### Added
+- Added a visual grid that can be disabled for element positioning
+- Added `cursor-pointer` class to make elements clickable
+- Added a background with a very tight grid to stay within the grid theme
+
+### Changed
+
+
+### Fixed
+
+
+### Removed

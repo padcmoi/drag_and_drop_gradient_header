@@ -6,7 +6,10 @@
     <title>Mon header personnalisé</title>
     <style>
       body {
-        background-color: black;
+        background-color: #666;
+        background-image: linear-gradient(to right, #000 1px, transparent 0), linear-gradient(to bottom, #000 1px, transparent 0);
+        background-size: 2px 2px, 2px 2px, 100% 100%;
+        background-position: 0 0, 0 0, 0 0;
         min-height: 100vh;
         margin: 0;
         display: flex;
@@ -142,6 +145,10 @@
         cursor: pointer;
       }
 
+      .cursor-pointer {
+        cursor: pointer;
+      }
+
       *:disabled {
         cursor: not-allowed;
       }
@@ -208,6 +215,11 @@
             </div>
 
             <div>
+              <div>
+                <label class="cursor-pointer" for="grid-container-id">Grille 𝄜:</label>
+                <input type="checkbox" id="grid-container-id" onchange="toggleGridContainer()" />
+              </div>
+
               <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
             </div>
 

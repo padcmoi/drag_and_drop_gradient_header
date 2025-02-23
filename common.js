@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const heightContainerValue = document.getElementById("height-container-value");
   const widthValueLabel = document.getElementById("width-value-label");
   const widthContainerValue = document.getElementById("width-container-value");
+  const gridCheckbox = document.getElementById("grid-container-id");
 
   if (startColorPicker) startColorPicker.value = loadCommonState("startColor", "#ff7e5f") || "#ff7e5f";
   if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
   if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
   if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
+  if (gridCheckbox) gridCheckbox.checked = loadCommonState("gridContainerEnabled", "false") == "true" ? true : false;
 
   // Call updateColorGradient after loading values
   updateColorGradient();
@@ -97,6 +99,14 @@ function toggleMiddleColorPicker() {
   updateColorGradient();
 }
 
+function toggleGridContainer(disabled = false) {
+  const gridCheckbox = document.getElementById("grid-container-id");
+  if (disabled) gridCheckbox.checked = true;
+
+  saveCommonState("gridContainerEnabled", gridCheckbox.checked);
+  updateColorGradient();
+}
+
 // Change gradient colors & orientation
 function updateColorGradient() {
   const startColor = document.getElementById("start-color-picker").value;
@@ -106,7 +116,16 @@ function updateColorGradient() {
   const orientation = document.getElementById("orientation-select").value;
 
   const gradient = state ? `linear-gradient(${orientation}, ${startColor}, ${middleColor}, ${endColor})` : `linear-gradient(${orientation}, ${startColor}, ${endColor})`;
-  document.getElementById("container-draggable-el").style.background = gradient;
+  const container = document.getElementById("container-draggable-el");
+
+  if (loadCommonState("gridContainerEnabled", "false") == "true") {
+    container.style.backgroundImage = `linear-gradient(to right, #000 1px, transparent 0),
+                                     linear-gradient(to bottom, #000 1px, transparent 0),
+                                     ${gradient}`;
+    container.style.backgroundSize = "20px 20px, 20px 20px, 100% 100%";
+  } else {
+    container.style.background = gradient;
+  }
 
   // Save to localStorage
   saveCommonState("startColor", startColor);
