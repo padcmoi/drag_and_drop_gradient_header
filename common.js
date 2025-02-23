@@ -1,4 +1,3 @@
-// Load saved values from localStorage
 document.addEventListener("DOMContentLoaded", function () {
   const startColorPicker = document.getElementById("start-color-picker");
   const middleColorPicker = document.getElementById("middle-color-picker");
@@ -8,15 +7,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const containerDraggableEl = document.getElementById("container-draggable-el");
   const heightValueLabel = document.getElementById("height-value-label");
   const heightContainerValue = document.getElementById("height-container-value");
+  const widthValueLabel = document.getElementById("width-value-label");
+  const widthContainerValue = document.getElementById("width-container-value");
 
   if (startColorPicker) startColorPicker.value = loadCommonState("startColor", "#ff7e5f") || "#ff7e5f";
   if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
   if (orientationSelect) orientationSelect.value = loadCommonState("orientation", "to right") || "to right";
   if (tripleColorCheckbox) tripleColorCheckbox.checked = loadCommonState("tripleColorState", "false") === "true";
-  if (containerDraggableEl) containerDraggableEl.style.height = loadCommonState("containerHeight", "70vh") || "70vh";
+  if (containerDraggableEl) {
+    containerDraggableEl.style.height = loadCommonState("containerHeight", "70vh") || "70vh";
+    containerDraggableEl.style.width = loadCommonState("containerWidth", "100%") || "100%";
+  }
   if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", "70vh") || "70vh";
   heightSlider.value = parseInt(loadCommonState("containerHeight", "70vh")) || 70;
-  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "vh";
+  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "%";
+  if (widthValueLabel) widthValueLabel.textContent = loadCommonState("containerWidth", "100%") || "100%";
+  widthSlider.value = parseInt(loadCommonState("containerWidth", "100%")) || 100;
+  if (widthContainerValue && widthSlider) widthContainerValue.innerText = widthSlider.value + "%";
   if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
   if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
   if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
@@ -128,12 +135,26 @@ const heightValueLabel = document.getElementById("height-container-value");
 
 heightSlider.max = 100;
 heightSlider.addEventListener("input", function () {
-  const height = this.value + "vh";
-  document.getElementById("container-draggable-el").style.height = height;
-  heightValueLabel.textContent = height;
+  const height = this.value;
+  document.getElementById("container-draggable-el").style.height = height + "vh";
+  heightValueLabel.textContent = height + "%";
 
   // Save to localStorage
   saveCommonState("containerHeight", height);
+});
+
+// Change rectangle width
+const widthSlider = document.getElementById("width-container-slider");
+const widthValueLabel = document.getElementById("width-container-value");
+
+widthSlider.max = 100;
+widthSlider.addEventListener("input", function () {
+  const width = this.value + "%";
+  document.getElementById("container-draggable-el").style.width = width;
+  widthValueLabel.textContent = width;
+
+  // Save to localStorage
+  saveCommonState("containerWidth", width);
 });
 
 // Download
