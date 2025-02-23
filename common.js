@@ -140,7 +140,7 @@ heightSlider.addEventListener("input", function () {
   heightValueLabel.textContent = height + "%";
 
   // Save to localStorage
-  saveCommonState("containerHeight", height);
+  saveCommonState("containerHeight", height + "%");
 });
 
 // Change rectangle width
