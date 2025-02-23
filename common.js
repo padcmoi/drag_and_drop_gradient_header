@@ -163,10 +163,13 @@ function displayFilePreview(reader) {
 
 function previewFile() {
   const file = document.getElementById("file-input-id").files[0];
-  const reader = new FileReader();
-  reader.onloadend = () => displayFilePreview(reader);
 
-  if (file) reader.readAsDataURL(file);
+  if (file.type.startsWith("image/")) {
+    const reader = new FileReader();
+    reader.onloadend = () => displayFilePreview(reader);
+
+    if (file) reader.readAsDataURL(file);
+  }
 }
 
 function cancelFilePreview() {
@@ -180,20 +183,24 @@ function cancelFilePreview() {
 }
 
 document.addEventListener("paste", (event) => {
-  const items = event.clipboardData.items;
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].kind === "file") {
-      const file = items[i].getAsFile();
-      const fileInput = document.getElementById("file-input-id");
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      fileInput.files = dataTransfer.files;
+  const selectedElement = document.querySelector(".selected");
+  if (!selectedElement) {
+    const items = event.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].kind === "file") {
+        const file = items[i].getAsFile();
 
-      const reader = new FileReader();
-      reader.onload = (e) => displayFilePreview(e.target);
+        if (file.type.startsWith("image/")) {
+          const fileInput = document.getElementById("file-input-id");
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          fileInput.files = dataTransfer.files;
 
-      reader.readAsDataURL(file);
-      break;
+          addImage(event);
+        }
+
+        break;
+      }
     }
   }
 });

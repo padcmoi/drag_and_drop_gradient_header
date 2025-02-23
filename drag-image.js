@@ -1,6 +1,6 @@
 const START_WIDTH = 80;
 
-document.getElementById("add-image-btn").addEventListener("click", function (event) {
+function addImage(event) {
   const fileInput = document.getElementById("file-input-id");
   const file = fileInput.files[0];
   if (!file) return event.preventDefault();
@@ -64,10 +64,16 @@ document.getElementById("add-image-btn").addEventListener("click", function (eve
 
     document.getElementById("container-draggable-el").appendChild(img);
     saveImgState();
+
+    deselectAllDragEl();
+    img.classList.add("selected");
+    selectMenu("select-image-menu");
   };
 
   reader.readAsDataURL(file);
-});
+}
+
+document.getElementById("add-image-btn").addEventListener("click", addImage);
 
 // Event listeners for sliders
 document.getElementById("size-image-slider").addEventListener("input", function (e) {
