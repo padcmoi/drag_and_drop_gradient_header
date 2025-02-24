@@ -162,6 +162,7 @@ function convertBackgroundAsElement() {
         rotation: 0,
         zIndex: getNextHighestZIndex(),
       });
+      document.getElementById("container-draggable-el").appendChild(createdImg);
 
       saveImgState();
       deselectAllDragEl();
