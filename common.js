@@ -464,3 +464,49 @@ function loadLocalStorage() {
   };
   input.click();
 }
+
+// Load localstore serverfiles
+fetch("./saves/manifest.json")
+  .then((response) => {
+    if (!response.ok) throw new Error("Network response was not ok");
+    return response.json();
+  })
+  .then((files) => {
+    const select = document.getElementById("local-storage-serverfiles");
+    files.forEach((file) => {
+      const option = document.createElement("option");
+      option.value = file;
+      option.textContent = file;
+      select.appendChild(option);
+    });
+  })
+  .catch((error) => console.error("There was a problem with the fetch operation:", error));
+
+function loadSelectedLocalStorageFile(select) {
+  const fileName = select.value;
+  if (fileName && !(localStorage.getItem("imageState") || localStorage.getItem("draggableElements"))) {
+    loadLocalStorageFromFile(`${fileName}`);
+  } else if (localStorage.getItem("imageState") || localStorage.getItem("draggableElements")) {
+    console.log("confirm ?");
+
+    const confirmation = confirm("Il y a des travaux en cours. Voulez-vous vraiment charger un nouveau fichier ?");
+    if (confirmation) {
+      loadLocalStorageFromFile(`${fileName}`);
+    }
+  }
+
+  document.getElementById("local-storage-serverfiles").value = "";
+}
+
+function loadLocalStorageFromFile(filePath) {
+  fetch(filePath)
+    .then((response) => response.json())
+    .then((data) => {
+      for (const key in data) {
+        localStorage.setItem(key, data[key]);
+      }
+
+      location.reload();
+    })
+    .catch((error) => console.error("Erreur lors du chargement du fichier JSON:", error));
+}

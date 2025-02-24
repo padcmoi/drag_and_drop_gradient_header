@@ -244,6 +244,13 @@
 
             <div>
               localStorage:
+
+              <div>
+                <select id="local-storage-serverfiles" class="input-style" onchange="loadSelectedLocalStorageFile(this)">
+                  <option value="" selected>Charger sauvegarde</option>
+                </select>
+              </div>
+
               <div>
                 <button onclick="loadLocalStorage()">Charger</button>
                 <button onclick="clearLocalStorage()">Effacer</button>

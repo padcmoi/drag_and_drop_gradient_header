@@ -30,6 +30,7 @@ All notable changes to this project will be documented in this file.
 - Added a background with a very tight grid to stay within the grid theme
 - Added a drag n drop modal allowing precise movement of text or images
 - Converted an image element to a background image, with the ability to revert the background image back to an element
+- Added a feature to load remote saves or server files
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element
