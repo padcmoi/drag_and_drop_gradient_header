@@ -40,6 +40,31 @@ function loadTextState() {
   });
 }
 
+function displayTextModal() {
+  const selectedSpan = document.querySelector("#container-draggable-el span.selected");
+  if (selectedSpan) {
+    toolWindowForMovingElements.handleButtonFn({
+      functionButtonUp: (value) => {
+        selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) - value}px`;
+        saveTextState();
+      },
+      functionButtonLeft: (value) => {
+        selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) - parseInt(value)}px`;
+        saveTextState();
+      },
+      functionButtonRight: (value) => {
+        selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) + value}px`;
+        saveTextState();
+      },
+      functionButtonDown: (value) => {
+        selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) + value}px`;
+        saveTextState();
+      },
+    });
+    toolWindowForMovingElements.hideContainer(false);
+  }
+}
+
 function addEventListeners(span) {
   span.addEventListener("dragstart", function (e) {
     e.dataTransfer.setData("text/plain", null);
@@ -79,6 +104,8 @@ function addEventListeners(span) {
 
     document.getElementById("change-font-family").value = span.style.fontFamily.replace(/['"]/g, "");
     document.getElementById("bold-text-level").value = span.style.fontWeight || "normal";
+
+    displayTextModal();
   });
 
   span.addEventListener("wheel", function (e) {
@@ -101,8 +128,9 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
   const span = document.createElement("span");
   span.textContent = textSelected;
   span.style.position = "absolute";
-  span.style.top = "50%";
-  span.style.left = "50%";
+  const containerRect = document.getElementById("container-draggable-el").getBoundingClientRect();
+  span.style.top = `${containerRect.height / 2}px`;
+  span.style.left = `${containerRect.width / 2}px`;
   span.draggable = true;
   span.style.display = "inline-block";
   span.classList.add("custom-text");
@@ -128,6 +156,8 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
   addEventListeners(span);
   document.getElementById("container-draggable-el").appendChild(span);
   saveTextState();
+
+  displayTextModal();
 });
 
 document.getElementById("change-text-message").addEventListener("input", function () {

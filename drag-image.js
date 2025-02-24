@@ -1,5 +1,30 @@
 const START_WIDTH = 80;
 
+function displayImageModal() {
+  const selectedImg = document.querySelector("#container-draggable-el img.selected");
+  if (selectedImg) {
+    toolWindowForMovingElements.handleButtonFn({
+      functionButtonUp: (value) => {
+        selectedImg.style.top = `${parseInt(selectedImg.style.top, 10) - value}px`;
+        saveImgState();
+      },
+      functionButtonLeft: (value) => {
+        selectedImg.style.left = `${parseInt(selectedImg.style.left, 10) - value}px`;
+        saveImgState();
+      },
+      functionButtonRight: (value) => {
+        selectedImg.style.left = `${parseInt(selectedImg.style.left, 10) + value}px`;
+        saveImgState();
+      },
+      functionButtonDown: (value) => {
+        selectedImg.style.top = `${parseInt(selectedImg.style.top, 10) + value}px`;
+        saveImgState();
+      },
+    });
+    toolWindowForMovingElements.hideContainer(false);
+  }
+}
+
 function addImage(event) {
   const fileInput = document.getElementById("file-input-id");
   const file = fileInput.files[0];
@@ -12,8 +37,9 @@ function addImage(event) {
     const img = document.createElement("img");
     img.src = e.target.result;
     img.style.position = "absolute";
-    img.style.top = "50%";
-    img.style.left = "50%";
+    const containerRect = document.getElementById("container-draggable-el").getBoundingClientRect();
+    img.style.top = `${containerRect.height / 2}px`;
+    img.style.left = `${containerRect.width / 2}px`;
     img.style.transform = "translate(-50%, -50%)";
     img.draggable = true;
     img.style.width = `${START_WIDTH}px`;
@@ -49,6 +75,8 @@ function addImage(event) {
       document.getElementById("size-image-value").innerText = `Size: ${sizeSlider.value}px`;
       document.getElementById("rotate-image-value").innerText = `Rotation: ${rotateSlider.value}°`;
       document.getElementById("z-index-image-value").innerText = `Ordre d'affichage: ${zIndexSlider.value}`;
+
+      displayImageModal();
     });
 
     img.addEventListener("wheel", function (e) {
@@ -68,6 +96,7 @@ function addImage(event) {
     deselectAllDragEl();
     img.classList.add("selected");
     selectMenu("select-image-menu");
+    displayImageModal();
   };
 
   reader.readAsDataURL(file);
@@ -163,6 +192,8 @@ function loadImgState() {
         document.getElementById("size-image-value").innerText = `Size: ${sizeSlider.value}px`;
         document.getElementById("rotate-image-value").innerText = `Rotation: ${rotateSlider.value}°`;
         document.getElementById("z-index-image-value").innerText = `Ordre d'affichage: ${zIndexSlider.value}`;
+
+        displayImageModal();
       });
 
       img.addEventListener("wheel", function (e) {

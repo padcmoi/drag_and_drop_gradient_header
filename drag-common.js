@@ -2,12 +2,14 @@ function deselectAllDragEl() {
   const spans = document.querySelectorAll("#container-draggable-el span");
   spans.forEach(function (span) {
     if (span.classList.contains("selected")) selectMenu("_disable_select_text");
+    toolWindowForMovingElements.hideContainer();
     span.classList.remove("selected");
   });
 
   const images = document.querySelectorAll("#container-draggable-el img");
   images.forEach(function (img) {
     if (img.classList.contains("selected")) selectMenu("_disable_select_img");
+    toolWindowForMovingElements.hideContainer();
     img.classList.remove("selected");
   });
 
@@ -32,6 +34,7 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "Delete" || e.key === "Backspace") {
     const selectedImage = document.querySelector("#container-draggable-el img.selected");
     if (selectedImage) {
+      toolWindowForMovingElements.hideContainer();
       selectedImage.remove();
       saveImgState();
       selectMenu("_keydown");
@@ -41,6 +44,7 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "Delete" || e.key === "Backspace") {
     const selectedSpan = document.querySelector("#container-draggable-el span.selected");
     if (selectedSpan) {
+      toolWindowForMovingElements.hideContainer();
       selectedSpan.remove();
       saveTextState();
       selectMenu("_keydown");

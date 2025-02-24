@@ -28,11 +28,12 @@ All notable changes to this project will be documented in this file.
 - Added a visual grid that can be disabled for element positioning
 - Added `cursor-pointer` class to make elements clickable
 - Added a background with a very tight grid to stay within the grid theme
+- Added a drag n drop modal allowing precise movement of text or images
 
 ### Changed
 
 
 ### Fixed
-
+- Fixed various issues where percentages (%) were used instead of pixels (px)
 
 ### Removed
