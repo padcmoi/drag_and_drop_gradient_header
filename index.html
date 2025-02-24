@@ -40,6 +40,15 @@
       .mx-auto {
         margin: auto;
       }
+      .text-center {
+        text-align: center;
+      }
+      .text-left {
+        text-align: left;
+      }
+      .text-right {
+        text-align: right;
+      }
 
       .menu {
         position: fixed;
@@ -144,7 +153,8 @@
         cursor: pointer;
       }
 
-      *:disabled {
+      *:disabled,
+      input[type="checkbox"]:disabled {
         cursor: not-allowed;
       }
       *[draggable="true"] {
@@ -219,11 +229,13 @@
             </section>
 
             <section>
-              <fieldset>
+              <fieldset class="text-center">
                 <legend>Options</legend>
                 <div>
                   <label class="cursor-pointer" for="grid-container-id">Grille 𝄜:</label>
                   <input type="checkbox" id="grid-container-id" onchange="toggleGridContainer()" />
+                  <label class="cursor-pointer" for="magnet-container-id">Aimant: 🧲</label>
+                  <input type="checkbox" id="magnet-container-id" onchange="toggleMagnetContainer()" />
                 </div>
 
                 <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>

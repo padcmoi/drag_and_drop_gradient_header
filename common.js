@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const widthValueLabel = document.getElementById("width-value-label");
   const widthContainerValue = document.getElementById("width-container-value");
   const gridCheckbox = document.getElementById("grid-container-id");
+  const magnetContainerCheckbox = document.getElementById("magnet-container-id");
 
   if (startColorPicker) startColorPicker.value = loadCommonState("startColor", "#ff7e5f") || "#ff7e5f";
   if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
@@ -29,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
   if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
   if (gridCheckbox) gridCheckbox.checked = loadCommonState("gridContainerEnabled", "false") == "true" ? true : false;
+  if (magnetContainerCheckbox) magnetContainerCheckbox.checked = loadCommonState("magnetContainerEnabled", "false") === "true";
+  if (!gridCheckbox.checked && magnetContainerCheckbox) {
+    magnetContainerCheckbox.checked = false;
+    magnetContainerCheckbox.disabled = true;
+  }
 
   // Call updateColorGradient after loading values
   updateColorGradient();
@@ -99,11 +105,25 @@ function toggleMiddleColorPicker() {
   updateColorGradient();
 }
 
-function toggleGridContainer(disabled = false) {
+function toggleGridContainer() {
   const gridCheckbox = document.getElementById("grid-container-id");
-  if (disabled) gridCheckbox.checked = true;
+  const magnetCheckbox = document.getElementById("magnet-container-id");
+  if (magnetCheckbox) {
+    magnetCheckbox.disabled = gridCheckbox.checked ? false : true;
+    if (!gridCheckbox.checked) {
+      magnetCheckbox.checked = false;
+      saveCommonState("magnetContainerEnabled", magnetCheckbox.checked);
+    }
+  }
 
   saveCommonState("gridContainerEnabled", gridCheckbox.checked);
+  updateColorGradient();
+}
+function toggleMagnetContainer() {
+  const magnetCheckbox = document.getElementById("magnet-container-id");
+  if (magnetCheckbox.disabled) return;
+
+  saveCommonState("magnetContainerEnabled", magnetCheckbox.checked);
   updateColorGradient();
 }
 

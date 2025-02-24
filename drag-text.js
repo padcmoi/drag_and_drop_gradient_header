@@ -76,6 +76,14 @@ function addEventListeners(span) {
     const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
     span.style.top = `${e.clientY - rect.top}px`;
     span.style.left = `${e.clientX - rect.left}px`;
+
+    // Magnet enabled
+    if (loadCommonState("magnetContainerEnabled", "false") === "true") {
+      const roundToNearest20 = (value) => Math.round(value / 20) * 20;
+      span.style.top = `${roundToNearest20(e.clientY - rect.top)}px`;
+      span.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
+    }
+
     saveTextState();
   });
 

@@ -56,6 +56,14 @@ function addImage(event) {
       const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
       img.style.top = `${e.clientY - rect.top}px`;
       img.style.left = `${e.clientX - rect.left}px`;
+
+      // Magnet enabled
+      if (loadCommonState("magnetContainerEnabled", "false") === "true") {
+        const roundToNearest20 = (value) => Math.round(value / 20) * 20;
+        img.style.top = `${roundToNearest20(e.clientY - rect.top)}px`;
+        img.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
+      }
+
       saveImgState();
     });
 
@@ -177,6 +185,14 @@ function createImageFromData(data) {
     const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
     img.style.top = `${e.clientY - rect.top}px`;
     img.style.left = `${e.clientX - rect.left}px`;
+
+    // Magnet enabled
+    if (loadCommonState("magnetContainerEnabled", "false") === "true") {
+      const roundToNearest20 = (value) => Math.round(value / 20) * 20;
+      img.style.top = `${roundToNearest20(e.clientY - rect.top)}px`;
+      img.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
+    }
+
     saveImgState();
   });
 

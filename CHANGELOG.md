@@ -31,6 +31,7 @@ All notable changes to this project will be documented in this file.
 - Added a drag n drop modal allowing precise movement of text or images
 - Converted an image element to a background image, with the ability to revert the background image back to an element
 - Added a feature to load remote saves or server files
+- Added an option to snap elements to the visual grid for better alignment
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element
@@ -40,5 +41,6 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)
+- Fixed issue where disabled checkboxes did not have a `cursor-pointer` style in CSS
 
 ### Removed
