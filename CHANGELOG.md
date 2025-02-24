@@ -34,7 +34,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element
-
+- Increased the height of the menu
+- Added fieldset for each element with a caption
+- Removed the effects of the work container that provided an unpleasant effect on loading
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)
