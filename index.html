@@ -194,23 +194,28 @@
                 <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
               </div>
 
-              <div>Dégradé: <input type="checkbox" id="triple-color-checkbox" onchange="toggleMiddleColorPicker()" /></div>
-              <div>
-                <input type="color" id="start-color-picker" value="#ff7e5f" class="color-picker" />
-                <input type="color" id="middle-color-picker" value="#ffffff" class="color-picker" disabled />
-                <input type="color" id="end-color-picker" value="#feb47b" class="color-picker" />
+              <div id="set-display-background-on" class="d-none">
+                <button onclick="convertBackgroundAsElement()">Convertir background en élement</button>
               </div>
-              <div>
-                <select id="orientation-select" class="input-style">
-                  <option value="to bottom">De haut en bas</option>
-                  <option value="to top">De bas en haut</option>
-                  <option value="to right">De gauche à droite</option>
-                  <option value="to left">De droite à gauche</option>
-                  <option value="to bottom right">En bas à droite</option>
-                  <option value="to bottom left">En bas à gauche</option>
-                  <option value="to top right">En haut à droite</option>
-                  <option value="to top left">En haut à gauche</option>
-                </select>
+              <div id="set-display-background-off" class="d-none">
+                <div>Dégradé: <input type="checkbox" id="triple-color-checkbox" onchange="toggleMiddleColorPicker()" /></div>
+                <div>
+                  <input type="color" id="start-color-picker" value="#ff7e5f" class="color-picker" />
+                  <input type="color" id="middle-color-picker" value="#ffffff" class="color-picker" disabled />
+                  <input type="color" id="end-color-picker" value="#feb47b" class="color-picker" />
+                </div>
+                <div>
+                  <select id="orientation-select" class="input-style">
+                    <option value="to bottom">De haut en bas</option>
+                    <option value="to top">De bas en haut</option>
+                    <option value="to right">De gauche à droite</option>
+                    <option value="to left">De droite à gauche</option>
+                    <option value="to bottom right">En bas à droite</option>
+                    <option value="to bottom left">En bas à gauche</option>
+                    <option value="to top right">En haut à droite</option>
+                    <option value="to top left">En haut à gauche</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -363,6 +368,10 @@
               <div>
                 <input type="range" id="z-index-image-slider" min="0" max="500" value="1" class="input-style" />
               </div>
+            </div>
+
+            <div>
+              <button id="define-image-as-background" onclick="setImageAsBackground()">Définir comme fond d'écran</button>
             </div>
 
             <div>

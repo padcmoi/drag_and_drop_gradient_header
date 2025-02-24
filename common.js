@@ -107,6 +107,54 @@ function toggleGridContainer(disabled = false) {
   updateColorGradient();
 }
 
+function setImageAsBackground() {
+  if (loadCommonState("backgroundImage", null)) return;
+
+  const selectedImage = document.querySelector("#container-draggable-el img.selected");
+  const container = document.getElementById("container-draggable-el");
+
+  if (selectedImage && selectedImage.src && container) {
+    saveCommonState("backgroundImage", selectedImage.src);
+
+    // remove draggable image
+    toolWindowForMovingElements.hideContainer();
+    selectedImage.remove();
+    saveImgState();
+    selectMenu("_convertImgToBackgroundImg");
+  }
+
+  updateColorGradient();
+}
+
+function convertBackgroundAsElement() {
+  const backgroundImage = loadCommonState("backgroundImage", null);
+  if (backgroundImage) {
+    const img = new Image();
+    img.src = backgroundImage;
+    img.onload = () => {
+      const containerRect = document.getElementById("container-draggable-el").getBoundingClientRect();
+
+      const createdImg = createImageFromData({
+        src: img.src,
+        top: `${containerRect.height / 2}px`,
+        left: `${containerRect.width / 2}px`,
+        width: `${START_WIDTH}px`,
+        rotation: 0,
+        zIndex: getNextHighestZIndex(),
+      });
+
+      saveImgState();
+      deselectAllDragEl();
+      createdImg.classList.add("selected");
+      selectMenu("select-image-menu");
+      displayImageModal();
+
+      localStorage.removeItem("backgroundImage");
+      updateColorGradient();
+    };
+  }
+}
+
 // Change gradient colors & orientation
 function updateColorGradient() {
   const startColor = document.getElementById("start-color-picker").value;
@@ -118,13 +166,15 @@ function updateColorGradient() {
   const gradient = state ? `linear-gradient(${orientation}, ${startColor}, ${middleColor}, ${endColor})` : `linear-gradient(${orientation}, ${startColor}, ${endColor})`;
   const container = document.getElementById("container-draggable-el");
 
-  if (loadCommonState("gridContainerEnabled", "false") == "true") {
-    container.style.backgroundImage = `linear-gradient(to right, #000 1px, transparent 0),
-                                     linear-gradient(to bottom, #000 1px, transparent 0),
-                                     ${gradient}`;
-    container.style.backgroundSize = "20px 20px, 20px 20px, 100% 100%";
+  const backgroundImage = loadCommonState("backgroundImage", null);
+
+  if (backgroundImage) {
+    const img = new Image();
+    img.src = backgroundImage;
+    img.onload = () => backgroundContainer(container, gradient, backgroundImage);
+    img.onerror = () => backgroundContainer(container, gradient, null);
   } else {
-    container.style.background = gradient;
+    backgroundContainer(container, gradient, null);
   }
 
   // Save to localStorage
@@ -133,6 +183,31 @@ function updateColorGradient() {
   saveCommonState("endColor", endColor);
   saveCommonState("orientation", orientation);
   saveCommonState("tripleColorState", state);
+}
+
+function backgroundContainer(container, gradient, setBackgroundImage = null) {
+  let backgroundImage = gradient;
+  if (setBackgroundImage) {
+    backgroundImage = `url(${setBackgroundImage})`;
+    container.style.backgroundPosition = "center";
+    document.getElementById("set-display-background-on").classList.remove("d-none");
+    document.getElementById("set-display-background-off").classList.add("d-none");
+    document.getElementById("define-image-as-background").disabled = true;
+  } else {
+    document.getElementById("set-display-background-on").classList.add("d-none");
+    document.getElementById("set-display-background-off").classList.remove("d-none");
+    document.getElementById("define-image-as-background").disabled = false;
+  }
+
+  if (loadCommonState("gridContainerEnabled", "false") == "true") {
+    container.style.backgroundImage = `linear-gradient(to right, #000 1px, transparent 0),
+                                     linear-gradient(to bottom, #000 1px, transparent 0),
+                                     ${backgroundImage}`;
+    container.style.backgroundSize = "20px 20px, 20px 20px, cover";
+  } else {
+    container.style.backgroundImage = backgroundImage;
+    container.style.backgroundSize = "cover";
+  }
 }
 
 document.getElementById("middle-color-picker").addEventListener("input", function () {

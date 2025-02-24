@@ -151,65 +151,69 @@ function saveImgState() {
 function loadImgState() {
   const state = JSON.parse(localStorage.getItem("imageState"));
   if (state) {
-    state.forEach((data) => {
-      const img = document.createElement("img");
-      img.src = data.src;
-      img.style.position = "absolute";
-      img.style.top = data.top;
-      img.style.left = data.left;
-      img.style.width = data.width;
-      img.dataset.rotation = data.rotation;
-      img.style.zIndex = data.zIndex;
-      img.style.transform = `translate(-50%, -50%) rotate(${data.rotation}deg)`;
-      img.draggable = true;
-
-      img.addEventListener("dragstart", function (e) {
-        e.dataTransfer.setData("text/plain", null);
-        const rect = img.getBoundingClientRect();
-        e.dataTransfer.setDragImage(img, e.clientX - rect.left, e.clientY - rect.top);
-      });
-
-      img.addEventListener("dragend", function (e) {
-        const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
-        img.style.top = `${e.clientY - rect.top}px`;
-        img.style.left = `${e.clientX - rect.left}px`;
-        saveImgState();
-      });
-
-      img.addEventListener("click", function (e) {
-        e.stopPropagation();
-        deselectAllDragEl();
-        img.classList.add("selected");
-        selectMenu("select-image-menu");
-
-        // Update sliders to match the selected image
-        const sizeSlider = document.getElementById("size-image-slider");
-        const rotateSlider = document.getElementById("rotate-image-slider");
-        const zIndexSlider = document.getElementById("z-index-image-slider");
-        sizeSlider.value = parseFloat(img.style.width);
-        rotateSlider.value = img.dataset.rotation;
-        zIndexSlider.value = img.style.zIndex;
-        document.getElementById("size-image-value").innerText = `Size: ${sizeSlider.value}px`;
-        document.getElementById("rotate-image-value").innerText = `Rotation: ${rotateSlider.value}°`;
-        document.getElementById("z-index-image-value").innerText = `Ordre d'affichage: ${zIndexSlider.value}`;
-
-        displayImageModal();
-      });
-
-      img.addEventListener("wheel", function (e) {
-        if (!img.classList.contains("selected")) return;
-        e.preventDefault();
-        const scale = e.deltaY < 0 ? 1.1 : 0.9;
-        const currentWidth = parseFloat(img.style.width);
-        img.style.width = `${currentWidth * scale}px`;
-        document.getElementById("size-image-slider").value = parseFloat(img.style.width);
-        document.getElementById("size-image-value").innerText = `Size: ${Math.round(parseFloat(img.style.width))}px`;
-        saveImgState();
-      });
-
-      document.getElementById("container-draggable-el").appendChild(img);
-    });
+    state.forEach((data) => createImageFromData(data));
   }
+}
+
+function createImageFromData(data) {
+  const img = document.createElement("img");
+  img.src = data.src;
+  img.style.position = "absolute";
+  img.style.top = data.top;
+  img.style.left = data.left;
+  img.style.width = data.width;
+  img.dataset.rotation = data.rotation;
+  img.style.zIndex = data.zIndex;
+  img.style.transform = `translate(-50%, -50%) rotate(${data.rotation}deg)`;
+  img.draggable = true;
+
+  img.addEventListener("dragstart", function (e) {
+    e.dataTransfer.setData("text/plain", null);
+    const rect = img.getBoundingClientRect();
+    e.dataTransfer.setDragImage(img, e.clientX - rect.left, e.clientY - rect.top);
+  });
+
+  img.addEventListener("dragend", function (e) {
+    const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
+    img.style.top = `${e.clientY - rect.top}px`;
+    img.style.left = `${e.clientX - rect.left}px`;
+    saveImgState();
+  });
+
+  img.addEventListener("click", function (e) {
+    e.stopPropagation();
+    deselectAllDragEl();
+    img.classList.add("selected");
+    selectMenu("select-image-menu");
+
+    // Update sliders to match the selected image
+    const sizeSlider = document.getElementById("size-image-slider");
+    const rotateSlider = document.getElementById("rotate-image-slider");
+    const zIndexSlider = document.getElementById("z-index-image-slider");
+    sizeSlider.value = parseFloat(img.style.width);
+    rotateSlider.value = img.dataset.rotation;
+    zIndexSlider.value = img.style.zIndex;
+    document.getElementById("size-image-value").innerText = `Size: ${sizeSlider.value}px`;
+    document.getElementById("rotate-image-value").innerText = `Rotation: ${rotateSlider.value}°`;
+    document.getElementById("z-index-image-value").innerText = `Ordre d'affichage: ${zIndexSlider.value}`;
+
+    displayImageModal();
+  });
+
+  img.addEventListener("wheel", function (e) {
+    if (!img.classList.contains("selected")) return;
+    e.preventDefault();
+    const scale = e.deltaY < 0 ? 1.1 : 0.9;
+    const currentWidth = parseFloat(img.style.width);
+    img.style.width = `${currentWidth * scale}px`;
+    document.getElementById("size-image-slider").value = parseFloat(img.style.width);
+    document.getElementById("size-image-value").innerText = `Size: ${Math.round(parseFloat(img.style.width))}px`;
+    saveImgState();
+  });
+
+  document.getElementById("container-draggable-el").appendChild(img);
+
+  return img;
 }
 
 // Load state on page load

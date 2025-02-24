@@ -29,8 +29,10 @@ All notable changes to this project will be documented in this file.
 - Added `cursor-pointer` class to make elements clickable
 - Added a background with a very tight grid to stay within the grid theme
 - Added a drag n drop modal allowing precise movement of text or images
+- Converted an image element to a background image, with the ability to revert the background image back to an element
 
 ### Changed
+- Refactored `createImageFromData` to be a reusable function with a return of the created image element
 
 
 ### Fixed
