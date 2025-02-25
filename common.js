@@ -1,4 +1,11 @@
+const DEFAULT_WIDTH_VALUE = 600;
+const DEFAULT_HEIGHT_VALUE = 300;
+
 document.addEventListener("DOMContentLoaded", function () {
+  // ID
+  const heightSlider = document.getElementById("height-container-slider");
+  const widthSlider = document.getElementById("width-container-slider");
+
   const startColorPicker = document.getElementById("start-color-picker");
   const middleColorPicker = document.getElementById("middle-color-picker");
   const endColorPicker = document.getElementById("end-color-picker");
@@ -12,20 +19,30 @@ document.addEventListener("DOMContentLoaded", function () {
   const gridCheckbox = document.getElementById("grid-container-id");
   const magnetContainerCheckbox = document.getElementById("magnet-container-id");
 
+  // localStorage & SET
+  heightSlider.max = localStorage.getItem("createdOriginOffsetHeight") ? parseInt(loadCommonState("createdOriginOffsetHeight", document.body.offsetHeight)) : document.body.offsetHeight;
+  widthSlider.max = localStorage.getItem("createdOriginOffsetWidth") ? parseInt(loadCommonState("createdOriginOffsetWidth", document.body.offsetWidth)) : document.body.offsetWidth;
+
   if (startColorPicker) startColorPicker.value = loadCommonState("startColor", "#ff7e5f") || "#ff7e5f";
   if (endColorPicker) endColorPicker.value = loadCommonState("endColor", "#feb47b") || "#feb47b";
   if (orientationSelect) orientationSelect.value = loadCommonState("orientation", "to right") || "to right";
   if (tripleColorCheckbox) tripleColorCheckbox.checked = loadCommonState("tripleColorState", "false") === "true";
+
+  // container property values w & h
   if (containerDraggableEl) {
-    containerDraggableEl.style.height = loadCommonState("containerHeight", "70vh") || "70vh";
-    containerDraggableEl.style.width = loadCommonState("containerWidth", "100%") || "100%";
+    containerDraggableEl.style.height = `${loadCommonState("containerHeight", `${DEFAULT_HEIGHT_VALUE}`) || `${DEFAULT_HEIGHT_VALUE}`}px`;
+    containerDraggableEl.style.width = `${loadCommonState("containerWidth", `${DEFAULT_WIDTH_VALUE}`) || `${DEFAULT_WIDTH_VALUE}`}px`;
   }
-  if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", "70vh") || "70vh";
-  heightSlider.value = parseInt(loadCommonState("containerHeight", "70vh")) || 70;
-  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "%";
-  if (widthValueLabel) widthValueLabel.textContent = loadCommonState("containerWidth", "100%") || "100%";
-  widthSlider.value = parseInt(loadCommonState("containerWidth", "100%")) || 100;
-  if (widthContainerValue && widthSlider) widthContainerValue.innerText = widthSlider.value + "%";
+
+  if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", `${DEFAULT_HEIGHT_VALUE}px`) || `${DEFAULT_HEIGHT_VALUE}px`;
+  heightSlider.value = parseInt(loadCommonState("containerHeight", `${DEFAULT_HEIGHT_VALUE}`)) || DEFAULT_HEIGHT_VALUE;
+  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "px";
+
+  if (widthValueLabel) widthValueLabel.textContent = loadCommonState("containerWidth", `${DEFAULT_WIDTH_VALUE}px`) || `${DEFAULT_WIDTH_VALUE}px`;
+  widthSlider.value = parseInt(loadCommonState("containerWidth", `${DEFAULT_WIDTH_VALUE}`)) || DEFAULT_WIDTH_VALUE;
+  if (widthContainerValue && widthSlider) widthContainerValue.innerText = widthSlider.value + "px";
+  // container property values w & h
+
   if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
   if (middleColorPicker) middleColorPicker.disabled = loadCommonState("middleColorPickerDisabled", "false") === "true";
   if (middleColorPicker) middleColorPicker.disabled = !tripleColorCheckbox.checked;
@@ -248,25 +265,26 @@ document.getElementById("orientation-select").addEventListener("change", functio
 const heightSlider = document.getElementById("height-container-slider");
 const heightValueLabel = document.getElementById("height-container-value");
 
-heightSlider.max = 100;
+// heightSlider.max = 100;
 heightSlider.addEventListener("input", function () {
-  const height = this.value;
-  document.getElementById("container-draggable-el").style.height = height + "vh";
-  heightValueLabel.textContent = height + "%";
+  const height = calculateHeightInPixels(this.value);
+
+  document.getElementById("container-draggable-el").style.height = height + "px";
+  heightValueLabel.textContent = height + "px";
 
   // Save to localStorage
-  saveCommonState("containerHeight", height + "vh");
+  saveCommonState("containerHeight", height);
 });
 
 // Change rectangle width
 const widthSlider = document.getElementById("width-container-slider");
 const widthValueLabel = document.getElementById("width-container-value");
 
-widthSlider.max = 100;
+// widthSlider.max = 100;
 widthSlider.addEventListener("input", function () {
-  const width = this.value + "%";
-  document.getElementById("container-draggable-el").style.width = width;
-  widthValueLabel.textContent = width;
+  const width = calculateWidthInPixels(this.value);
+  document.getElementById("container-draggable-el").style.width = width + "px";
+  widthValueLabel.textContent = width + "px";
 
   // Save to localStorage
   saveCommonState("containerWidth", width);

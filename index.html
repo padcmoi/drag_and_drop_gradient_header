@@ -25,8 +25,8 @@
       }
 
       .full-width-rectangle {
-        width: 70vw;
-        height: 70vh;
+        width: 300px;
+        height: 300px;
       }
       .custom-text {
         font-size: 28px;
@@ -148,6 +148,9 @@
         font-size: 1em;
         cursor: pointer;
       }
+      fieldset legend {
+        text-align: left;
+      }
 
       .cursor-pointer {
         cursor: pointer;
@@ -176,7 +179,7 @@
   </head>
   <body>
     <!-- Element to download -->
-    <div class="full-width-rectangle" id="container-draggable-el"></div>
+    <div id="container-draggable-el" class="full-width-rectangle"></div>
     <!-- Element to download -->
 
     <!-- Menu -->
@@ -193,15 +196,20 @@
               <fieldset>
                 <legend>Réglage container</legend>
 
-                <div>Hauteur container: <span id="height-container-value">70vh</span></div>
+                <div>Hauteur container: <span id="height-container-value">70px</span></div>
                 <div>
                   <input type="range" id="height-container-slider" min="5" max="100" value="70" class="input-style" />
                 </div>
-                <div>Largeur container: <span id="width-container-value">70vw</span></div>
+                <div>Largeur container: <span id="width-container-value">70px</span></div>
                 <div>
                   <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
                 </div>
+              </fieldset>
+            </section>
 
+            <section>
+              <fieldset>
+                <legend>Fond d'écran</legend>
                 <div id="set-display-background-on" class="d-none">
                   <button onclick="convertBackgroundAsElement()">Convertir background en élement</button>
                 </div>
@@ -226,9 +234,7 @@
                   </div>
                 </div>
               </fieldset>
-            </section>
 
-            <section>
               <fieldset class="text-center">
                 <legend>Options</legend>
                 <div>
@@ -272,7 +278,7 @@
 
             <section>
               <fieldset>
-                <legend>localStorage:</legend>
+                <legend>localStorage</legend>
                 <div>
                   <select id="local-storage-serverfiles" class="input-style" onchange="loadSelectedLocalStorageFile(this)">
                     <option value="" selected>Charger sauvegarde</option>
@@ -310,7 +316,7 @@
 
             <section>
               <fieldset>
-                <legend>Ajoute un texte:</legend>
+                <legend>Ajoute un texte</legend>
                 <div>
                   <input type="text" id="add-text-message" class="input-style" placeholder="Entrez votre message" />
                   <button id="add-text-btn">Ajoute texte</button>
@@ -342,7 +348,7 @@
           <div class="container">
             <section>
               <fieldset>
-                <legend>Change le texte selectionné:</legend>
+                <legend>Change le texte selectionné</legend>
                 <div>
                   <input type="text" id="change-text-message" class="input-style" placeholder="Entrez votre message" />
                 </div>
@@ -353,7 +359,7 @@
 
             <section>
               <fieldset>
-                <legend>Google font:</legend>
+                <legend>Google font</legend>
 
                 <div>
                   <select id="change-font-family" class="input-style" onchange="changeGoogleFontFamily(this)"></select>
@@ -496,6 +502,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="./utils.js"></script>
     <script src="./common.js"></script>
     <script src="./drag-common.js"></script>
     <script src="./drag-image.js"></script>

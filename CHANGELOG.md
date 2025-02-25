@@ -38,9 +38,11 @@ All notable changes to this project will be documented in this file.
 - Increased the height of the menu
 - Added fieldset for each element with a caption
 - Removed the effects of the work container that provided an unpleasant effect on loading
+- The workspace is configured in `px`, the first container retains the maximum height and width values
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)
 - Fixed issue where disabled checkboxes did not have a `cursor-pointer` style in CSS
+- Fixed issues on workspace with `%` and `vh` units that didnt adapt well to different screens by changing them to `px`
 
 ### Removed
