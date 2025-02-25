@@ -44,5 +44,6 @@ All notable changes to this project will be documented in this file.
 - Fixed various issues where percentages (%) were used instead of pixels (px)
 - Fixed issue where disabled checkboxes did not have a `cursor-pointer` style in CSS
 - Fixed issues on workspace with `%` and `vh` units that didnt adapt well to different screens by changing them to `px`
+- Fixed menu display issues
 
 ### Removed

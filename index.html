@@ -17,7 +17,6 @@
         align-items: flex-start;
         font-family: Arial, sans-serif;
         flex-direction: column;
-        overflow: hidden;
         user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -70,16 +69,16 @@
         min-height: 200px;
       }
       .menu-toggle {
-        color: white;
         text-align: right;
-        margin-right: 1em;
       }
       .menu-toggle .menuBtn {
         background-color: #333;
         font-weight: bold;
         border-bottom: none;
+        margin: 0;
+        margin-right: 1em;
         color: white;
-        padding: 10px 50px;
+        padding: 20px 30px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         font-size: 1.5em;
@@ -143,11 +142,12 @@
       }
 
       button {
-        margin-top: 20px;
-        padding: 10px 20px;
+        margin: 5px 0;
+        padding: 10px;
         font-size: 1em;
         cursor: pointer;
       }
+
       fieldset legend {
         text-align: left;
       }
@@ -238,10 +238,12 @@
               <fieldset class="text-center">
                 <legend>Options</legend>
                 <div>
-                  <label class="cursor-pointer" for="grid-container-id">Grille 𝄜:</label>
+                  (
+                  <label class="cursor-pointer" for="grid-container-id">Grille:</label>
                   <input type="checkbox" id="grid-container-id" onchange="toggleGridContainer()" />
-                  <label class="cursor-pointer" for="magnet-container-id">Aimant: 🧲</label>
+                  <label class="cursor-pointer" for="magnet-container-id">🧲</label>
                   <input type="checkbox" id="magnet-container-id" onchange="toggleMagnetContainer()" />
+                  )
                 </div>
 
                 <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
