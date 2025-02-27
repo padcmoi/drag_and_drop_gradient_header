@@ -7,22 +7,22 @@ function displayImageModal() {
       functionButtonUp: (value) => {
         selectedImg.style.top = `${parseInt(selectedImg.style.top, 10) - value}px`;
         saveImgState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedImg.getBoundingClientRect().left)}px, Y: ${Math.round(selectedImg.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedImg);
       },
       functionButtonLeft: (value) => {
         selectedImg.style.left = `${parseInt(selectedImg.style.left, 10) - value}px`;
         saveImgState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedImg.getBoundingClientRect().left)}px, Y: ${Math.round(selectedImg.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedImg);
       },
       functionButtonRight: (value) => {
         selectedImg.style.left = `${parseInt(selectedImg.style.left, 10) + value}px`;
         saveImgState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedImg.getBoundingClientRect().left)}px, Y: ${Math.round(selectedImg.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedImg);
       },
       functionButtonDown: (value) => {
         selectedImg.style.top = `${parseInt(selectedImg.style.top, 10) + value}px`;
         saveImgState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedImg.getBoundingClientRect().left)}px, Y: ${Math.round(selectedImg.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedImg);
       },
     });
     toolWindowForMovingElements.hideContainer(false);
@@ -144,7 +144,7 @@ function createImageFromData(data) {
       img.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
     }
 
-    toolWindowForMovingElements.tempInformation(`X: ${Math.round(img.getBoundingClientRect().left)}px, Y: ${Math.round(img.getBoundingClientRect().top)}px`);
+    displayElementCoordinatesXY(img);
 
     saveImgState();
   });

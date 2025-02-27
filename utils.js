@@ -68,3 +68,14 @@ function calculateWidthToPercentage(pixels = 300) {
   const containerWidth = parseInt(loadCommonState("createdOriginOffsetWidth", document.body.offsetWidth));
   return parseInt((parseInt(pixels) / containerWidth) * 100);
 }
+
+/**
+ * Updates the tool window with the current position of the selected element.
+ *
+ * @param {HTMLElement} selectedSpan - The selected element.
+ */
+function displayElementCoordinatesXY(element, delay = 60000) {
+  const xPosition = Math.round(element.getBoundingClientRect().left);
+  const yPosition = Math.round(element.getBoundingClientRect().top);
+  toolWindowForMovingElements.tempInformation(`X: ${xPosition}px, Y: ${yPosition}px`, delay);
+}

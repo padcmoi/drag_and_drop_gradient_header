@@ -45,7 +45,7 @@ All notable changes to this project will be documented in this file.
 - The workspace is configured in `px`, the first container retains the maximum height and width values
 - Replaced the old menu with a new, more functional menu with better rendering
 - Replaced the method of how elements are clicked in the modal-windows component, added the ability to hold to move elements
-
+- Refactored the coordinate display functionality into a reusable component for showing X, Y coordinates of elements
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)

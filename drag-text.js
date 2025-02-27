@@ -47,22 +47,22 @@ function displayTextModal() {
       functionButtonUp: (value) => {
         selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) - value}px`;
         saveTextState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedSpan);
       },
       functionButtonLeft: (value) => {
         selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) - parseInt(value)}px`;
         saveTextState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedSpan);
       },
       functionButtonRight: (value) => {
         selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) + value}px`;
         saveTextState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedSpan);
       },
       functionButtonDown: (value) => {
         selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) + value}px`;
         saveTextState();
-        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
+        displayElementCoordinatesXY(selectedSpan);
       },
     });
     toolWindowForMovingElements.hideContainer(false);
@@ -88,7 +88,7 @@ function addEventListeners(span) {
       span.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
     }
 
-    toolWindowForMovingElements.tempInformation(`X: ${Math.round(span.getBoundingClientRect().left)}px, Y: ${Math.round(span.getBoundingClientRect().top)}px`);
+    displayElementCoordinatesXY(span);
 
     saveTextState();
   });
