@@ -574,6 +574,26 @@ function loadLocalStorageFromFile(filePath) {
     .catch((error) => console.error("Erreur lors du chargement du fichier JSON:", error));
 }
 
+// github ribbon fork project
+//   if (window.location.hostname.includes("netlify.app")) {
+if (window.location.hostname.includes("mple.local")) {
+  const githubRibbon = document.createElement("a");
+  githubRibbon.href = "https://github.com/padcmoi/drag_and_drop_gradient_header";
+  githubRibbon.target = "_blank";
+  githubRibbon.style.position = "absolute";
+  githubRibbon.style.top = "0";
+  githubRibbon.style.right = "0";
+  githubRibbon.style.border = "0";
+  githubRibbon.style.zIndex = "1000";
+
+  const githubImage = document.createElement("img");
+  githubImage.src = "./github.forkme.svg";
+  githubImage.alt = "Fork me on GitHub";
+
+  githubRibbon.appendChild(githubImage);
+  document.body.appendChild(githubRibbon);
+}
+
 // Preset workspace
 
 // Load workspace presets into the select element

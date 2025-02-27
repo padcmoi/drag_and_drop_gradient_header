@@ -42,6 +42,7 @@ All notable changes to this project will be documented in this file.
 - Added customization for the horizontal scrollbar
 - Added manual numeric selection for X and Y values in the workspace, changed to free value also
 - Added a system of presets allowing users to save and load predefined configurations for the workspace and elements
+- Added a GitHub "Fork me" ribbon for easy access to the repository
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element
