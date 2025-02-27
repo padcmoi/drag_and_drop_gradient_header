@@ -575,8 +575,7 @@ function loadLocalStorageFromFile(filePath) {
 }
 
 // github ribbon fork project
-//   if (window.location.hostname.includes("netlify.app")) {
-if (window.location.hostname.includes("mple.local")) {
+if (window.location.hostname.includes("netlify.app")) {
   const githubRibbon = document.createElement("a");
   githubRibbon.href = "https://github.com/padcmoi/drag_and_drop_gradient_header";
   githubRibbon.target = "_blank";
