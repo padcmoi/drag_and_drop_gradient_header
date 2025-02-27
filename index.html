@@ -213,6 +213,14 @@
             <div>
               <input type="range" id="width-container-slider" min="0" max="100" value="70" class="input-style" oninput="onUpdateWidthContainer(this)" />
             </div>
+
+            <div class="input-group">
+              <div class="input-group-text">Preset:</div>
+              <select id="select-preset-workspace-id">
+                <option value="" selected disabled>Select predefined format</option>
+              </select>
+              <button onclick="applyWorkspacePreset()">Appliquer</button>
+            </div>
           </fieldset>
         </div>
       </section>

@@ -56,12 +56,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // Call updateColorGradient after loading values
   updateColorGradient();
 
-  // const menu = document.getElementById("menu");
-  // if (loadCommonState("menuOpen", "false") === "true") {
-  //   menu.classList.add("open");
-  // } else {
-  //   menu.classList.remove("open");
-  // }
+  if (loadCommonState("menuOpen", "false") === "true") {
+    dropdownWindow.toggleMenu({ open: true });
+  } else {
+    dropdownWindow.toggleMenu({ close: true });
+  }
+});
+
+document.addEventListener("DropdownWindowMenuStatus", (event) => {
+  console.log("Dropdown window menu status changed:", event.detail.menuOpen);
+  saveCommonState("menuOpen", event.detail.menuOpen);
 });
 
 // Save and load functions
@@ -568,4 +572,98 @@ function loadLocalStorageFromFile(filePath) {
       location.reload();
     })
     .catch((error) => console.error("Erreur lors du chargement du fichier JSON:", error));
+}
+
+// Preset workspace
+
+// Load workspace presets into the select element
+fetch("./workspace.presets.json")
+  .then((response) => response.json())
+  .then((presets) => {
+    const selectPresetWorkspace = document.getElementById("select-preset-workspace-id");
+    if (selectPresetWorkspace) {
+      presets.forEach((preset) => {
+        const option = document.createElement("option");
+        option.value = preset.key;
+        option.textContent = preset.name;
+        selectPresetWorkspace.appendChild(option);
+      });
+    }
+  })
+  .catch((error) => console.error("Error loading workspace presets:", error));
+
+function applyWorkspacePreset() {
+  const selectPresetWorkspace = document.getElementById("select-preset-workspace-id");
+  if (!selectPresetWorkspace || !selectPresetWorkspace.value) return;
+
+  const selectedValue = selectPresetWorkspace.value;
+  selectPresetWorkspace.value = "";
+
+  fetch("./workspace.presets.json")
+    .then((response) => response.json())
+    .then((presets) => {
+      const preset = presets.find((p) => p.key === selectedValue);
+      if (preset) {
+        const content = preset.content;
+
+        if (content.containerHeight) {
+          document.getElementById("container-draggable-el").style.height = content.containerHeight + "px";
+          heightSlider.value = content.containerHeight;
+          heightValueLabel.value = content.containerHeight;
+          saveCommonState("containerHeight", content.containerHeight);
+        }
+        if (content.containerWidth) {
+          document.getElementById("container-draggable-el").style.width = content.containerWidth + "px";
+          widthSlider.value = content.containerWidth;
+          widthValueLabel.value = content.containerWidth;
+          saveCommonState("containerWidth", content.containerWidth);
+        }
+        if (content.startColor) {
+          document.getElementById("start-color-picker").value = content.startColor;
+          saveCommonState("startColor", content.startColor);
+        }
+        if (content.middleColor) {
+          document.getElementById("middle-color-picker").value = content.middleColor;
+          saveCommonState("middleColor", content.middleColor);
+        }
+        if (content.endColor) {
+          document.getElementById("end-color-picker").value = content.endColor;
+          saveCommonState("endColor", content.endColor);
+        }
+        if (content.orientation) {
+          document.getElementById("orientation-select").value = content.orientation;
+          saveCommonState("orientation", content.orientation);
+        }
+        if (content.tripleColorState) {
+          document.getElementById("triple-color-checkbox").checked = content.tripleColorState === "true";
+          saveCommonState("tripleColorState", content.tripleColorState);
+        }
+        if (content.middleColorPickerDisabled) {
+          document.getElementById("middle-color-picker").disabled = content.middleColorPickerDisabled === "true";
+          saveCommonState("middleColorPickerDisabled", content.middleColorPickerDisabled);
+        }
+        if (content.gridContainerEnabled) {
+          document.getElementById("grid-container-id").checked = content.gridContainerEnabled === "true";
+          saveCommonState("gridContainerEnabled", content.gridContainerEnabled);
+        }
+        if (content.magnetContainerEnabled) {
+          document.getElementById("magnet-container-id").checked = content.magnetContainerEnabled === "true";
+          saveCommonState("magnetContainerEnabled", content.magnetContainerEnabled);
+        }
+        if (content.menuOpen) {
+          if (content.menuOpen === "true") {
+            dropdownWindow.toggleMenu({ open: true });
+          } else {
+            dropdownWindow.toggleMenu({ close: true });
+          }
+          saveCommonState("menuOpen", content.menuOpen);
+        }
+        updateColorGradient();
+
+        location.reload();
+      }
+    })
+    .catch((error) => console.error("Error loading workspace presets:", error));
+
+  console.log(selectPresetWorkspace.value);
 }

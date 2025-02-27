@@ -41,6 +41,7 @@ All notable changes to this project will be documented in this file.
 - The dropdown menu is now in a fixed position to follow workspaces that exceed the final screen size
 - Added customization for the horizontal scrollbar
 - Added manual numeric selection for X and Y values in the workspace, changed to free value also
+- Added a system of presets allowing users to save and load predefined configurations for the workspace and elements
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element

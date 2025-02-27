@@ -1,0 +1,52 @@
+[
+  {
+    "name": "LinkedIn banner format",
+    "key": "linkedin-banner",
+    "author": "Julien Jean",
+    "contact": null,
+    "content": {
+      "containerWidth": "1584",
+      "containerHeight": "396"
+    }
+  },
+  {
+    "name": "Example BG Color",
+    "key": "example-bg-color",
+    "author": "Julien Jean",
+    "contact": null,
+    "content": {
+      "middleColor": "#1e6b54",
+      "containerWidth": "500",
+      "tripleColorState": "true",
+      "containerHeight": "500",
+      "middleColorPickerDisabled": "false",
+      "endColor": "#a74902",
+      "orientation": "to right",
+      "startColor": "#45180d"
+    }
+  },
+  {
+    "name": "my linkedIn Example",
+    "key": "my-linkedin-example",
+    "author": "Julien Jean",
+    "contact": null,
+    "content": {
+      "tripleColorState": "true",
+      "menuOpen": "false",
+      "middleColorPickerDisabled": "false",
+      "endColor": "#00ccff",
+      "orientation": "to top right",
+      "magnetContainerEnabled": "false",
+      "imageState": "[]",
+      "middleColor": "#0e354e",
+      "containerWidth": "1584",
+      "containerHeight": "396",
+      "createdOriginOffsetHeight": "959",
+      "draggableElements": "[]",
+      "createdOriginOffsetWidth": "1920",
+      "gridContainerEnabled": "false",
+      "toolWindowForMovingElementsContainerInputRangeValue": "1",
+      "startColor": "#00375c"
+    }
+  }
+]
