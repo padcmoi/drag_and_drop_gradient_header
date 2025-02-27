@@ -40,6 +40,7 @@ All notable changes to this project will be documented in this file.
 - Improved the precision of drag and drop by calculating the delta of the initial mouse position
 - The dropdown menu is now in a fixed position to follow workspaces that exceed the final screen size
 - Added customization for the horizontal scrollbar
+- Added manual numeric selection for X and Y values in the workspace, changed to free value also
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element

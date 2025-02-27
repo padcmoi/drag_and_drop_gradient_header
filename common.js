@@ -36,11 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (heightValueLabel) heightValueLabel.textContent = loadCommonState("containerHeight", `${DEFAULT_HEIGHT_VALUE}px`) || `${DEFAULT_HEIGHT_VALUE}px`;
   heightSlider.value = parseInt(loadCommonState("containerHeight", `${DEFAULT_HEIGHT_VALUE}`)) || DEFAULT_HEIGHT_VALUE;
-  if (heightContainerValue && heightSlider) heightContainerValue.innerText = heightSlider.value + "px";
+  if (heightContainerValue && heightSlider) heightContainerValue.value = heightSlider.value;
 
   if (widthValueLabel) widthValueLabel.textContent = loadCommonState("containerWidth", `${DEFAULT_WIDTH_VALUE}px`) || `${DEFAULT_WIDTH_VALUE}px`;
   widthSlider.value = parseInt(loadCommonState("containerWidth", `${DEFAULT_WIDTH_VALUE}`)) || DEFAULT_WIDTH_VALUE;
-  if (widthContainerValue && widthSlider) widthContainerValue.innerText = widthSlider.value + "px";
+  if (widthContainerValue && widthSlider) widthContainerValue.value = widthSlider.value;
   // container property values w & h
 
   if (middleColorPicker) middleColorPicker.value = loadCommonState("middleColor", "#ffffff") || "#ffffff";
@@ -252,34 +252,71 @@ document.getElementById("orientation-select").addEventListener("change", functio
   updateColorGradient();
 });
 
-// Change rectangle height
 const heightSlider = document.getElementById("height-container-slider");
 const heightValueLabel = document.getElementById("height-container-value");
+const originOffsetHeight = localStorage.getItem("createdOriginOffsetHeight") ? parseInt(loadCommonState("createdOriginOffsetHeight", document.body.offsetHeight)) : document.body.offsetHeight;
 
-// heightSlider.max = 100;
-heightSlider.addEventListener("input", function () {
-  const height = calculateHeightInPixels(this.value);
+const widthSlider = document.getElementById("width-container-slider");
+const widthValueLabel = document.getElementById("width-container-value");
+const originOffsetWidth = localStorage.getItem("createdOriginOffsetWidth") ? parseInt(loadCommonState("createdOriginOffsetWidth", document.body.offsetWidth)) : document.body.offsetWidth;
+
+// Change rectangle height
+function onUpdateHeightContainer(input) {
+  if (input.value == "") return;
+  const minHeight = parseInt(heightSlider.min);
+  if (isNaN(minHeight) || isNaN(parseInt(input.value)) || input.value < minHeight) input.value = minHeight;
+  if (input.value > originOffsetHeight) input.value = originOffsetHeight;
+
+  // Will be removed in a future version
+  // const height = calculateHeightInPixels(input.value);
+
+  const height = input.value;
+
+  switch (input.type) {
+    case "number":
+      heightSlider.value = height;
+      break;
+    case "range":
+      heightValueLabel.value = height;
+      break;
+    default:
+      throw new Error("Invalid input type");
+  }
 
   document.getElementById("container-draggable-el").style.height = height + "px";
-  heightValueLabel.textContent = height + "px";
 
   // Save to localStorage
   saveCommonState("containerHeight", height);
-});
+}
 
 // Change rectangle width
-const widthSlider = document.getElementById("width-container-slider");
-const widthValueLabel = document.getElementById("width-container-value");
+function onUpdateWidthContainer(input) {
+  if (input.value == "") return;
+  const minWidth = parseInt(widthSlider.min);
+  if (isNaN(minWidth) || isNaN(parseInt(input.value)) || input.value < minWidth) input.value = minWidth;
+  if (input.value > originOffsetWidth) input.value = originOffsetWidth;
 
-// widthSlider.max = 100;
-widthSlider.addEventListener("input", function () {
-  const width = calculateWidthInPixels(this.value);
+  // Will be removed in a future version
+  // const width = calculateWidthInPixels(input.value);
+
+  const width = input.value;
+
+  switch (input.type) {
+    case "number":
+      widthSlider.value = width;
+      break;
+    case "range":
+      widthValueLabel.value = width;
+      break;
+    default:
+      throw new Error("Invalid input type");
+  }
+
   document.getElementById("container-draggable-el").style.width = width + "px";
-  widthValueLabel.textContent = width + "px";
 
   // Save to localStorage
   saveCommonState("containerWidth", width);
-});
+}
 
 // Download
 document.getElementById("download-btn").addEventListener("click", function () {

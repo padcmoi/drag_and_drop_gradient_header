@@ -190,15 +190,28 @@
         </div>
         <div class="menu-child">
           <fieldset>
-            <legend>Réglage container</legend>
+            <legend>Réglage workspace</legend>
 
-            <div>Hauteur container: <span id="height-container-value">70px</span></div>
             <div>
-              <input type="range" id="height-container-slider" min="5" max="100" value="70" class="input-style" />
+              <div class="input-group-special">
+                <div class="input-group-special-desc">Hauteur workspace:</div>
+                <input id="height-container-value" type="number" placeholder="Enter numeric value" oninput="onUpdateHeightContainer(this)" />
+                <div class="input-group-special-unit">px</div>
+              </div>
             </div>
-            <div>Largeur container: <span id="width-container-value">70px</span></div>
             <div>
-              <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
+              <input type="range" id="height-container-slider" min="0" max="100" value="70" class="input-style" oninput="onUpdateHeightContainer(this)" />
+            </div>
+
+            <div>
+              <div class="input-group-special">
+                <div class="input-group-special-desc">Largeur workspace:</div>
+                <input id="width-container-value" type="number" placeholder="Enter numeric value" oninput="onUpdateWidthContainer(this)" />
+                <div class="input-group-special-unit">px</div>
+              </div>
+            </div>
+            <div>
+              <input type="range" id="width-container-slider" min="0" max="100" value="70" class="input-style" oninput="onUpdateWidthContainer(this)" />
             </div>
           </fieldset>
         </div>
