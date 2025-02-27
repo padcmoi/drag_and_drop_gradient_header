@@ -120,6 +120,7 @@ function addEventListeners(span) {
     document.getElementById("bold-text-level").value = span.style.fontWeight || "normal";
 
     displayTextModal();
+    displayElementCoordinatesXY(span);
   });
 
   span.addEventListener("wheel", function (e) {
@@ -172,6 +173,7 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
   saveTextState();
 
   displayTextModal();
+  displayElementCoordinatesXY(span);
 });
 
 document.getElementById("change-text-message").addEventListener("input", function () {

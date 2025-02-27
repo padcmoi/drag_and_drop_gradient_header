@@ -56,6 +56,7 @@ function addImage(event) {
     img.classList.add("selected");
     selectMenu("select-image-menu");
     displayImageModal();
+    displayElementCoordinatesXY(img);
   };
 
   reader.readAsDataURL(file);
@@ -167,6 +168,7 @@ function createImageFromData(data) {
     document.getElementById("z-index-image-value").innerText = `Ordre d'affichage: ${zIndexSlider.value}`;
 
     displayImageModal();
+    displayElementCoordinatesXY(img);
   });
 
   img.addEventListener("wheel", function (e) {
