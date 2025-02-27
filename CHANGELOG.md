@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 - Refactored the coordinate display functionality into a reusable component for showing X, Y coordinates of elements
 - Moved the grid checkbox to a more accessible location
 - Moved the add text button to a more prominent position
+- Updated the `DropdownWindow` component with the addition of an event trigger for the menu open/close button
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)
