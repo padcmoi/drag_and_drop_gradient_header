@@ -127,22 +127,29 @@ function createImageFromData(data) {
   img.style.transform = `translate(-50%, -50%) rotate(${data.rotation}deg)`;
   img.draggable = true;
 
+  let deltaX, deltaY;
+
   img.addEventListener("dragstart", function (e) {
     e.dataTransfer.setData("text/plain", null);
     const rect = img.getBoundingClientRect();
     e.dataTransfer.setDragImage(img, e.clientX - rect.left, e.clientY - rect.top);
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    deltaX = e.clientX - centerX;
+    deltaY = e.clientY - centerY;
   });
 
   img.addEventListener("dragend", function (e) {
     const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
-    img.style.top = `${e.clientY - rect.top}px`;
-    img.style.left = `${e.clientX - rect.left}px`;
+    img.style.top = `${e.clientY - rect.top - deltaY}px`;
+    img.style.left = `${e.clientX - rect.left - deltaX}px`;
 
     // Magnet enabled
     if (loadCommonState("magnetContainerEnabled", "false") === "true") {
       const roundToNearest20 = (value) => Math.round(value / 20) * 20;
-      img.style.top = `${roundToNearest20(e.clientY - rect.top)}px`;
-      img.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
+      img.style.top = `${roundToNearest20(e.clientY - rect.top - deltaY)}px`;
+      img.style.left = `${roundToNearest20(e.clientX - rect.left - deltaX)}px`;
     }
 
     displayElementCoordinatesXY(img);

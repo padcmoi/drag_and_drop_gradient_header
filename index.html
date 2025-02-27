@@ -22,7 +22,25 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
+        overflow-y: hidden;
       }
+      body::-webkit-scrollbar {
+        height: 8px;
+      }
+      body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        opacity: 0.5;
+      }
+      body::-webkit-scrollbar-thumb {
+        background: #007bff;
+        opacity: 0.5;
+        border-radius: 0px;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
+        opacity: 0.5;
+      }
+
       .full-width-rectangle {
         width: 300px;
         height: 300px;
@@ -90,15 +108,43 @@
       <section style="display: none" id="default-menu" class="menu-parent">
         <div class="menu-child">
           <fieldset>
-            <legend>Réglage container</legend>
-
-            <div>Hauteur container: <span id="height-container-value">70px</span></div>
+            <legend>localStorage</legend>
             <div>
-              <input type="range" id="height-container-slider" min="5" max="100" value="70" class="input-style" />
+              <select id="local-storage-serverfiles" class="input-style" onchange="loadSelectedLocalStorageFile(this)">
+                <option value="" selected>Charger sauvegarde</option>
+              </select>
             </div>
-            <div>Largeur container: <span id="width-container-value">70px</span></div>
+
             <div>
-              <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
+              <button onclick="loadLocalStorage()">Charger</button>
+              <button onclick="clearLocalStorage()">Effacer</button>
+              <button onclick="saveLocalStorage()">Sauvegarder</button>
+            </div>
+          </fieldset>
+
+          <fieldset style="text-align: right">
+            <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
+            <button id="download-btn">Télécharger Image</button>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Charger une image / Coller</legend>
+            <div class="ct-previewFile">
+              <img id="file-preview-id" src="" alt="Image Preview" class="previewFile" />
+            </div>
+
+            <div id="file-queue-empty" class="file-input-container">
+              <label for="file-input" class="file-input-label">Choose a file</label>
+              <input type="file" name="fileInput" id="file-input-id" class="file-input" accept="image/*" onchange="previewFile()" />
+            </div>
+
+            <!-- <div id="file-queue-empty">
+              <input type="file" name="fileInput" id="file-input-id" accept="image/*" onchange="previewFile()" class="input-style" />
+            </div> -->
+            <div id="file-queue-filled" class="d-none" style="text-align: center">
+              <button class="button-style" id="add-image-btn">V</button>
+              <button class="button-style" onclick="cancelFilePreview()">X</button>
             </div>
           </fieldset>
         </div>
@@ -130,7 +176,7 @@
             </div>
           </fieldset>
 
-          <fieldset class="text-center">
+          <fieldset class="text-left">
             <legend>Options</legend>
             <div>
               (
@@ -140,49 +186,20 @@
               <input type="checkbox" id="magnet-container-id" onchange="toggleMagnetContainer()" />
               )
             </div>
-
-            <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
           </fieldset>
         </div>
         <div class="menu-child">
           <fieldset>
-            <legend>Charger une image / Coller</legend>
-            <div class="ct-previewFile">
-              <img id="file-preview-id" src="" alt="Image Preview" class="previewFile" />
-            </div>
+            <legend>Réglage container</legend>
 
-            <div id="file-queue-empty" class="file-input-container">
-              <label for="file-input" class="file-input-label">Choose a file</label>
-              <input type="file" name="fileInput" id="file-input-id" class="file-input" accept="image/*" onchange="previewFile()" />
-            </div>
-
-            <!-- <div id="file-queue-empty">
-              <input type="file" name="fileInput" id="file-input-id" accept="image/*" onchange="previewFile()" class="input-style" />
-            </div> -->
-            <div id="file-queue-filled" class="d-none" style="text-align: center">
-              <button class="button-style" id="add-image-btn">V</button>
-              <button class="button-style" onclick="cancelFilePreview()">X</button>
-            </div>
-          </fieldset>
-        </div>
-        <div class="menu-child">
-          <fieldset>
-            <legend>localStorage</legend>
+            <div>Hauteur container: <span id="height-container-value">70px</span></div>
             <div>
-              <select id="local-storage-serverfiles" class="input-style" onchange="loadSelectedLocalStorageFile(this)">
-                <option value="" selected>Charger sauvegarde</option>
-              </select>
+              <input type="range" id="height-container-slider" min="5" max="100" value="70" class="input-style" />
             </div>
-
+            <div>Largeur container: <span id="width-container-value">70px</span></div>
             <div>
-              <button onclick="loadLocalStorage()">Charger</button>
-              <button onclick="clearLocalStorage()">Effacer</button>
-              <button onclick="saveLocalStorage()">Sauvegarder</button>
+              <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
             </div>
-          </fieldset>
-
-          <fieldset style="text-align: right">
-            <button id="download-btn">Télécharger Image</button>
           </fieldset>
         </div>
       </section>
@@ -200,6 +217,12 @@
       </section>
 
       <section style="display: none" id="select-text-menu" class="menu-parent">
+        <div class="menu-child">
+          <fieldset>
+            <button onclick="deselectAllDragEl()">Terminé</button>
+          </fieldset>
+        </div>
+
         <div class="menu-child">
           <fieldset>
             <legend>Change le texte selectionné</legend>
@@ -241,6 +264,17 @@
             </div>
           </fieldset>
         </div>
+
+        <div class="menu-child">
+          <fieldset>
+            <legend>Autres</legend>
+            <label id="z-index-text-value" for="z-index-text-slider">Ordre d'affichage: 1</label>
+            <div>
+              <input type="range" id="z-index-text-slider" min="0" max="500" value="1" class="input-style" />
+            </div>
+          </fieldset>
+        </div>
+
         <div class="menu-child">
           <fieldset>
             <legend>Effet texte</legend>
@@ -259,23 +293,30 @@
             </div>
           </fieldset>
         </div>
+      </section>
+
+      <section style="display: none" id="select-image-menu" class="menu-parent">
         <div class="menu-child">
           <fieldset>
-            <legend>Autres</legend>
-            <label id="z-index-text-value" for="z-index-text-slider">Ordre d'affichage: 1</label>
-            <div>
-              <input type="range" id="z-index-text-slider" min="0" max="500" value="1" class="input-style" />
-            </div>
+            <legend>Actions</legend>
+            <button id="define-image-as-background" onclick="setImageAsBackground()">Définir comme fond d'écran</button>
           </fieldset>
-        </div>
-        <div class="menu-child">
+
           <fieldset>
             <button onclick="deselectAllDragEl()">Terminé</button>
           </fieldset>
         </div>
-      </section>
 
-      <section style="display: none" id="select-image-menu" class="menu-parent">
+        <div class="menu-child">
+          <fieldset>
+            <legend>Réglage</legend>
+            <label id="z-index-image-value" for="z-index-image-slider">Ordre d'affichage: 1</label>
+            <div>
+              <input type="range" id="z-index-image-slider" min="0" max="500" value="1" class="input-style" />
+            </div>
+          </fieldset>
+        </div>
+
         <div class="menu-child">
           <fieldset>
             <legend>Réglage</legend>
@@ -294,30 +335,11 @@
             </div>
           </fieldset>
         </div>
-        <div class="menu-child">
-          <fieldset>
-            <legend>Réglage</legend>
-            <label id="z-index-image-value" for="z-index-image-slider">Ordre d'affichage: 1</label>
-            <div>
-              <input type="range" id="z-index-image-slider" min="0" max="500" value="1" class="input-style" />
-            </div>
-          </fieldset>
-        </div>
-        <div class="menu-child">
-          <fieldset>
-            <legend>Actions</legend>
-            <button id="define-image-as-background" onclick="setImageAsBackground()">Définir comme fond d'écran</button>
-          </fieldset>
-
-          <fieldset>
-            <button onclick="deselectAllDragEl()">Terminé</button>
-          </fieldset>
-        </div>
       </section>
     </div>
 
     <!-- Element to download -->
-    <div id="container-draggable-el" class="full-width-rectangle"></div>
+    <div id="container-draggable-el" class="full-width-rectangle cursor-crosshair"></div>
     <!-- Element to download -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

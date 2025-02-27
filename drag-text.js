@@ -70,22 +70,29 @@ function displayTextModal() {
 }
 
 function addEventListeners(span) {
+  let deltaX, deltaY;
+
   span.addEventListener("dragstart", function (e) {
     e.dataTransfer.setData("text/plain", null);
     const rect = span.getBoundingClientRect();
     e.dataTransfer.setDragImage(span, e.clientX - rect.left, e.clientY - rect.top);
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    deltaX = e.clientX - centerX;
+    deltaY = e.clientY - centerY;
   });
 
   span.addEventListener("dragend", function (e) {
     const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
-    span.style.top = `${e.clientY - rect.top}px`;
-    span.style.left = `${e.clientX - rect.left}px`;
+    span.style.top = `${e.clientY - rect.top - deltaY}px`;
+    span.style.left = `${e.clientX - rect.left - deltaX}px`;
 
     // Magnet enabled
     if (loadCommonState("magnetContainerEnabled", "false") === "true") {
       const roundToNearest20 = (value) => Math.round(value / 20) * 20;
-      span.style.top = `${roundToNearest20(e.clientY - rect.top)}px`;
-      span.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
+      span.style.top = `${roundToNearest20(e.clientY - rect.top - deltaY)}px`;
+      span.style.left = `${roundToNearest20(e.clientX - rect.left - deltaX)}px`;
     }
 
     displayElementCoordinatesXY(span);

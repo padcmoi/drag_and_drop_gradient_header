@@ -18,6 +18,10 @@ body {
   user-select: none;
 }
 
+.cursor-crosshair {
+  cursor: crosshair;
+}
+
 .d-none {
   display: none !important;
 }

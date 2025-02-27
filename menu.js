@@ -49,5 +49,16 @@ function updateMenuChildMinHeight() {
     });
   }
 }
+function onLoadMenuContainer() {
+  const menuContainer = document.querySelector(".menu-container");
+  const menuToggleButton = document.querySelector(".menu-toggle-button");
+  if (menuContainer) {
+    menuContainer.style.position = "fixed";
+    menuContainer.style.zIndex = "9999";
+  }
+  if (menuToggleButton) menuToggleButton.style.position = "fixed";
+
+  updateMenuChildMinHeight();
+}
 window.addEventListener("resize", updateMenuChildMinHeight);
-window.addEventListener("load", updateMenuChildMinHeight);
+window.addEventListener("load", onLoadMenuContainer);

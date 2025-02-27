@@ -36,6 +36,10 @@ All notable changes to this project will be documented in this file.
 - Added responsiveness to the menu for better display on different screen sizes
 - Added display of coordinates for elements when using drag and drop or arrow keys
 - Added display of X, Y coordinates for elements when they are selected or moved
+- Added `cursor-crosshair` style to the workspace
+- Improved the precision of drag and drop by calculating the delta of the initial mouse position
+- The dropdown menu is now in a fixed position to follow workspaces that exceed the final screen size
+- Added customization for the horizontal scrollbar
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element
@@ -46,6 +50,8 @@ All notable changes to this project will be documented in this file.
 - Replaced the old menu with a new, more functional menu with better rendering
 - Replaced the method of how elements are clicked in the modal-windows component, added the ability to hold to move elements
 - Refactored the coordinate display functionality into a reusable component for showing X, Y coordinates of elements
+- Moved the grid checkbox to a more accessible location
+- Moved the add text button to a more prominent position
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)
