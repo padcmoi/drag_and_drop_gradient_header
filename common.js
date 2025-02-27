@@ -56,12 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Call updateColorGradient after loading values
   updateColorGradient();
 
-  const menu = document.getElementById("menu");
-  if (loadCommonState("menuOpen", "false") === "true") {
-    menu.classList.add("open");
-  } else {
-    menu.classList.remove("open");
-  }
+  // const menu = document.getElementById("menu");
+  // if (loadCommonState("menuOpen", "false") === "true") {
+  //   menu.classList.add("open");
+  // } else {
+  //   menu.classList.remove("open");
+  // }
 });
 
 // Save and load functions
@@ -74,34 +74,25 @@ function loadCommonState(key, defaultValue) {
 }
 
 // Menu
-const toggleMenu = () => {
-  const menu = document.getElementById("menu");
-  menu.classList.toggle("open");
-  saveCommonState("menuOpen", menu.classList.contains("open"));
-};
-
 function selectMenu(menuId) {
-  ["default-menu", "add-text-menu", "select-text-menu", "select-image-menu"].forEach((id) => document.getElementById(id).classList.add("d-none"));
-
   switch (menuId) {
     case "default-menu":
-      document.getElementById(menuId).classList.remove("d-none");
+      menuManager.showMenu(menuId);
       break;
     case "add-text-menu":
       document.getElementById("add-text-message").value = "";
-      document.getElementById(menuId).classList.remove("d-none");
+      menuManager.showMenu(menuId);
       break;
     case "select-text-menu":
-      document.getElementById(menuId).classList.remove("d-none");
+      menuManager.showMenu(menuId);
       break;
     case "select-image-menu":
-      document.getElementById(menuId).classList.remove("d-none");
+      menuManager.showMenu(menuId);
       break;
     default:
-      document.getElementById("default-menu").classList.remove("d-none");
+      menuManager.showMenu();
   }
 }
-// Menu
 
 function getHexColor(element) {
   const rgb = window.getComputedStyle(element).color;
@@ -360,32 +351,24 @@ document.addEventListener("paste", (event) => {
 });
 
 // Applies a braking effect to the rotation of a slider.
-let rotationBrakeEnabled = true;
-function applyRotationBrakeEffect(slider) {
-  if (!rotationBrakeEnabled) return;
+const rotationBrakeEnabled = { text: true, img: true };
+
+function applyRotationBrakeEffect(slider, assign) {
+  if (!rotationBrakeEnabled[assign]) return;
 
   const brakePoints = [0, 45, 90, -45, -90];
-  brakePoints.forEach((point) => {
-    if (Math.abs(slider.value - point) < 10) {
-      slider.value = point;
-    }
-  });
-  slider.dispatchEvent(new Event("change"));
+  const closestPoint = brakePoints.reduce((prev, curr) => (Math.abs(curr - slider.value) < Math.abs(prev - slider.value) ? curr : prev));
+
+  if (Math.abs(slider.value - closestPoint) < 10) {
+    slider.value = closestPoint;
+    slider.dispatchEvent(new Event("change"));
+  }
 }
 
-function lockRotationBrakeEffect(label) {
-  const lockIcon = label.querySelector(".lock-icon");
-  const unlockIcon = label.querySelector(".unlock-icon");
-
-  if (rotationBrakeEnabled) {
-    rotationBrakeEnabled = false;
-    lockIcon.style.display = "none";
-    unlockIcon.style.display = "inline";
-  } else {
-    rotationBrakeEnabled = true;
-    lockIcon.style.display = "inline";
-    unlockIcon.style.display = "none";
-  }
+function lockRotationBrakeEffect(btn, assign) {
+  rotationBrakeEnabled[assign] = !rotationBrakeEnabled[assign];
+  btn.classList.toggle("btn-danger", rotationBrakeEnabled[assign]);
+  btn.classList.toggle("btn-success", !rotationBrakeEnabled[assign]);
 }
 
 // handle google fonts

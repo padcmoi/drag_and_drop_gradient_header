@@ -1,0 +1,29 @@
+.app-menu {
+  width: 100%;
+}
+.menu-parent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid transparent;
+  transition: transform 0.3s ease;
+}
+.menu-parent .menu-child {
+  flex: 1 1 250px;
+  min-height: 79px; /* Auto changed by function updateMenuChildMinHeight */
+  max-width: 500px;
+  padding: 10px;
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
+  background-color: #222;
+  transition: background-color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+}
+
+.menu-parent .menu-child:hover {
+  filter: contrast(1.05);
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}

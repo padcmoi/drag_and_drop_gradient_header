@@ -47,18 +47,22 @@ function displayTextModal() {
       functionButtonUp: (value) => {
         selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) - value}px`;
         saveTextState();
+        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
       },
       functionButtonLeft: (value) => {
         selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) - parseInt(value)}px`;
         saveTextState();
+        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
       },
       functionButtonRight: (value) => {
         selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) + value}px`;
         saveTextState();
+        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
       },
       functionButtonDown: (value) => {
         selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) + value}px`;
         saveTextState();
+        toolWindowForMovingElements.tempInformation(`X: ${Math.round(selectedSpan.getBoundingClientRect().left)}px, Y: ${Math.round(selectedSpan.getBoundingClientRect().top)}px`);
       },
     });
     toolWindowForMovingElements.hideContainer(false);
@@ -83,6 +87,8 @@ function addEventListeners(span) {
       span.style.top = `${roundToNearest20(e.clientY - rect.top)}px`;
       span.style.left = `${roundToNearest20(e.clientX - rect.left)}px`;
     }
+
+    toolWindowForMovingElements.tempInformation(`X: ${Math.round(span.getBoundingClientRect().left)}px, Y: ${Math.round(span.getBoundingClientRect().top)}px`);
 
     saveTextState();
   });

@@ -11,6 +11,7 @@
         background-size: 2px 2px, 2px 2px, 100% 100%;
         background-position: 0 0, 0 0, 0 0;
         min-height: 100vh;
+        color: white;
         margin: 0;
         display: flex;
         justify-content: flex-start;
@@ -22,7 +23,6 @@
         -moz-user-select: none;
         -ms-user-select: none;
       }
-
       .full-width-rectangle {
         width: 300px;
         height: 300px;
@@ -32,7 +32,6 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         white-space: nowrap;
       }
-
       .d-none {
         display: none;
       }
@@ -48,82 +47,6 @@
       .text-right {
         text-align: right;
       }
-
-      .menu {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        transition: max-height 0.3s ease;
-        overflow: hidden;
-        max-height: 0;
-        min-height: 70px;
-        z-index: 9999;
-      }
-      .menu.open {
-        max-height: 400px;
-      }
-      .menu-content {
-        background-color: #333;
-        color: white;
-        padding: 10px;
-        min-height: 200px;
-      }
-      .menu-toggle {
-        text-align: right;
-      }
-      .menu-toggle .menuBtn {
-        background-color: #333;
-        font-weight: bold;
-        border-bottom: none;
-        margin: 0;
-        margin-right: 1em;
-        color: white;
-        padding: 20px 30px;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        font-size: 1.5em;
-        cursor: pointer;
-        transition: 0.2s;
-      }
-      .menu-toggle .menuBtn:hover {
-        background-color: #444;
-      }
-
-      .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        min-height: 210px;
-        padding: 0;
-        width: 100%;
-      }
-
-      .input-style {
-        padding: 10px;
-        font-size: 1em;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        align-items: center;
-      }
-
-      .button-style {
-        background-color: rgb(212, 212, 212);
-        border: none;
-        color: dark;
-        padding: 8px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 12px;
-        transition: background-color 0.3s ease;
-      }
-      .button-style:hover {
-        background-color: rgb(255, 255, 255);
-      }
-
       .ct-previewFile {
         display: flex;
         justify-content: center;
@@ -134,28 +57,14 @@
         max-height: 100px;
         display: none;
       }
-
       .color-picker {
         border: 1px solid #ccc;
         border-radius: 5px;
         height: 30px;
       }
-
-      button {
-        margin: 5px 0;
-        padding: 10px;
-        font-size: 1em;
-        cursor: pointer;
-      }
-
       fieldset legend {
         text-align: left;
       }
-
-      .cursor-pointer {
-        cursor: pointer;
-      }
-
       *:disabled,
       input[type="checkbox"]:disabled {
         cursor: not-allowed;
@@ -166,345 +75,256 @@
       *[draggable="true"]:active {
         cursor: grabbing;
       }
-      input[type="checkbox"],
-      .lock-label {
-        cursor: pointer;
-      }
       .selected {
-        border: 5px solid rgb(0, 255, 132);
+        border: 5px dashed rgb(0, 255, 132);
       }
     </style>
+    <link rel="stylesheet" href="./styles.common.css" />
+    <link rel="stylesheet" href="./styles.menu.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
+    <div id="app-menu" class="app-menu">
+      <section style="display: none" id="default-menu" class="menu-parent">
+        <div class="menu-child">
+          <fieldset>
+            <legend>Réglage container</legend>
+
+            <div>Hauteur container: <span id="height-container-value">70px</span></div>
+            <div>
+              <input type="range" id="height-container-slider" min="5" max="100" value="70" class="input-style" />
+            </div>
+            <div>Largeur container: <span id="width-container-value">70px</span></div>
+            <div>
+              <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Fond d'écran</legend>
+            <div id="set-display-background-on" class="d-none">
+              <button onclick="convertBackgroundAsElement()">Convertir background en élement</button>
+            </div>
+            <div id="set-display-background-off" class="d-none">
+              <div>Dégradé: <input type="checkbox" id="triple-color-checkbox" onchange="toggleMiddleColorPicker()" /></div>
+              <div>
+                <input type="color" id="start-color-picker" value="#ff7e5f" class="color-picker" />
+                <input type="color" id="middle-color-picker" value="#ffffff" class="color-picker" disabled />
+                <input type="color" id="end-color-picker" value="#feb47b" class="color-picker" />
+              </div>
+              <div>
+                <select id="orientation-select" class="input-style">
+                  <option value="to bottom">De haut en bas</option>
+                  <option value="to top">De bas en haut</option>
+                  <option value="to right">De gauche à droite</option>
+                  <option value="to left">De droite à gauche</option>
+                  <option value="to bottom right">En bas à droite</option>
+                  <option value="to bottom left">En bas à gauche</option>
+                  <option value="to top right">En haut à droite</option>
+                  <option value="to top left">En haut à gauche</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="text-center">
+            <legend>Options</legend>
+            <div>
+              (
+              <label class="cursor-pointer" for="grid-container-id">Grille:</label>
+              <input type="checkbox" id="grid-container-id" onchange="toggleGridContainer()" />
+              <label class="cursor-pointer" for="magnet-container-id">🧲</label>
+              <input type="checkbox" id="magnet-container-id" onchange="toggleMagnetContainer()" />
+              )
+            </div>
+
+            <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Charger une image / Coller</legend>
+            <div class="ct-previewFile">
+              <img id="file-preview-id" src="" alt="Image Preview" class="previewFile" />
+            </div>
+
+            <div id="file-queue-empty" class="file-input-container">
+              <label for="file-input" class="file-input-label">Choose a file</label>
+              <input type="file" name="fileInput" id="file-input-id" class="file-input" accept="image/*" onchange="previewFile()" />
+            </div>
+
+            <!-- <div id="file-queue-empty">
+              <input type="file" name="fileInput" id="file-input-id" accept="image/*" onchange="previewFile()" class="input-style" />
+            </div> -->
+            <div id="file-queue-filled" class="d-none" style="text-align: center">
+              <button class="button-style" id="add-image-btn">V</button>
+              <button class="button-style" onclick="cancelFilePreview()">X</button>
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>localStorage</legend>
+            <div>
+              <select id="local-storage-serverfiles" class="input-style" onchange="loadSelectedLocalStorageFile(this)">
+                <option value="" selected>Charger sauvegarde</option>
+              </select>
+            </div>
+
+            <div>
+              <button onclick="loadLocalStorage()">Charger</button>
+              <button onclick="clearLocalStorage()">Effacer</button>
+              <button onclick="saveLocalStorage()">Sauvegarder</button>
+            </div>
+          </fieldset>
+
+          <fieldset style="text-align: right">
+            <button id="download-btn">Télécharger Image</button>
+          </fieldset>
+        </div>
+      </section>
+
+      <section style="display: none" id="add-text-menu" class="menu-parent">
+        <div class="menu-child">
+          <fieldset>
+            <legend>Ajoute un texte</legend>
+            <div>
+              <input type="text" id="add-text-message" class="input-style" placeholder="Entrez votre message" />
+              <button id="add-text-btn">Ajoute texte</button> <button onclick="deselectAllDragEl()">Annuler</button>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
+      <section style="display: none" id="select-text-menu" class="menu-parent">
+        <div class="menu-child">
+          <fieldset>
+            <legend>Change le texte selectionné</legend>
+            <div>
+              <input type="text" id="change-text-message" class="input-style" placeholder="Entrez votre message" />
+            </div>
+            <input type="color" id="change-color-message" class="color-picker" value="#222222" />
+            <label for="change-color-message">Couleur du texte</label>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Google font</legend>
+
+            <div>
+              <select id="change-font-family" class="input-style" onchange="changeGoogleFontFamily(this)"></select>
+            </div>
+
+            <div>
+              Niveau de gras:
+              <select id="bold-text-level" class="input-style">
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="300">300</option>
+                <option value="400" selected>400 (normal)</option>
+                <option value="500">500</option>
+                <option value="600">600</option>
+                <option value="700">700 (bold)</option>
+                <option value="800">800</option>
+                <option value="900">900</option>
+                <option value="lighter">Lighter</option>
+                <option value="bolder">Bolder</option>
+                <option value="inherit">Inherit</option>
+                <option value="initial">Initial</option>
+                <option value="revert">Revert</option>
+                <option value="revert-layer">Revert-layer</option>
+                <option value="unset">Unset</option>
+              </select>
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Effet texte</legend>
+            <label id="height-text-value" for="height-text-slider">Taille: 28px</label>
+            <div>
+              <input type="range" id="height-text-slider" min="1" max="300" value="28" class="input-style" />
+            </div>
+            <label id="rotate-text-value" for="height-text-slider">Rotation: 0°</label>
+            <div>
+              <div style="display: flex; align-items: center">
+                <input type="range" id="rotate-text-slider" min="-180" max="180" value="0" class="input-style" oninput="applyRotationBrakeEffect(this, 'text')" />
+                <label for="lock-checkbox" class="lock-label" style="display: flex; align-items: center; margin-left: 10px">
+                  <button id="rotate-text-btn" class="btn-danger" onclick="lockRotationBrakeEffect(this, 'text')">🔒</button>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Autres</legend>
+            <label id="z-index-text-value" for="z-index-text-slider">Ordre d'affichage: 1</label>
+            <div>
+              <input type="range" id="z-index-text-slider" min="0" max="500" value="1" class="input-style" />
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <button onclick="deselectAllDragEl()">Terminé</button>
+          </fieldset>
+        </div>
+      </section>
+
+      <section style="display: none" id="select-image-menu" class="menu-parent">
+        <div class="menu-child">
+          <fieldset>
+            <legend>Réglage</legend>
+            <label id="size-image-value" for="size-image-slider">Taille: 100px</label>
+            <div>
+              <input type="range" id="size-image-slider" min="1" max="1920" value="100" class="input-style" />
+            </div>
+            <label id="rotate-image-value" for="rotate-image-slider">Rotation: 0°</label>
+            <div>
+              <div style="display: flex; align-items: center">
+                <input type="range" id="rotate-image-slider" min="-180" max="180" value="0" class="input-style" oninput="applyRotationBrakeEffect(this, 'img')" />
+                <label for="lock-checkbox" class="lock-label" style="display: flex; align-items: center; margin-left: 10px">
+                  <button id="rotate-image-btn" class="btn-danger" onclick="lockRotationBrakeEffect(this, 'img')">🔒</button>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Réglage</legend>
+            <label id="z-index-image-value" for="z-index-image-slider">Ordre d'affichage: 1</label>
+            <div>
+              <input type="range" id="z-index-image-slider" min="0" max="500" value="1" class="input-style" />
+            </div>
+          </fieldset>
+        </div>
+        <div class="menu-child">
+          <fieldset>
+            <legend>Actions</legend>
+            <button id="define-image-as-background" onclick="setImageAsBackground()">Définir comme fond d'écran</button>
+          </fieldset>
+
+          <fieldset>
+            <button onclick="deselectAllDragEl()">Terminé</button>
+          </fieldset>
+        </div>
+      </section>
+    </div>
+
     <!-- Element to download -->
     <div id="container-draggable-el" class="full-width-rectangle"></div>
     <!-- Element to download -->
 
-    <!-- Menu -->
-    <div class="menu" id="menu">
-      <div class="menu-toggle">
-        <button id="openButton" class="menuBtn" onclick="toggleMenu()">MENU</button>
-      </div>
-      <div class="menu-content">
-        <!-- Menu -->
-
-        <div id="default-menu">
-          <div class="container">
-            <section>
-              <fieldset>
-                <legend>Réglage container</legend>
-
-                <div>Hauteur container: <span id="height-container-value">70px</span></div>
-                <div>
-                  <input type="range" id="height-container-slider" min="5" max="100" value="70" class="input-style" />
-                </div>
-                <div>Largeur container: <span id="width-container-value">70px</span></div>
-                <div>
-                  <input type="range" id="width-container-slider" min="5" max="100" value="70" class="input-style" />
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Fond d'écran</legend>
-                <div id="set-display-background-on" class="d-none">
-                  <button onclick="convertBackgroundAsElement()">Convertir background en élement</button>
-                </div>
-                <div id="set-display-background-off" class="d-none">
-                  <div>Dégradé: <input type="checkbox" id="triple-color-checkbox" onchange="toggleMiddleColorPicker()" /></div>
-                  <div>
-                    <input type="color" id="start-color-picker" value="#ff7e5f" class="color-picker" />
-                    <input type="color" id="middle-color-picker" value="#ffffff" class="color-picker" disabled />
-                    <input type="color" id="end-color-picker" value="#feb47b" class="color-picker" />
-                  </div>
-                  <div>
-                    <select id="orientation-select" class="input-style">
-                      <option value="to bottom">De haut en bas</option>
-                      <option value="to top">De bas en haut</option>
-                      <option value="to right">De gauche à droite</option>
-                      <option value="to left">De droite à gauche</option>
-                      <option value="to bottom right">En bas à droite</option>
-                      <option value="to bottom left">En bas à gauche</option>
-                      <option value="to top right">En haut à droite</option>
-                      <option value="to top left">En haut à gauche</option>
-                    </select>
-                  </div>
-                </div>
-              </fieldset>
-
-              <fieldset class="text-center">
-                <legend>Options</legend>
-                <div>
-                  (
-                  <label class="cursor-pointer" for="grid-container-id">Grille:</label>
-                  <input type="checkbox" id="grid-container-id" onchange="toggleGridContainer()" />
-                  <label class="cursor-pointer" for="magnet-container-id">🧲</label>
-                  <input type="checkbox" id="magnet-container-id" onchange="toggleMagnetContainer()" />
-                  )
-                </div>
-
-                <button onclick="selectMenu('add-text-menu')">Ajouter un texte</button>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Charger une image / Coller</legend>
-                <div class="ct-previewFile">
-                  <img id="file-preview-id" src="" alt="Image Preview" class="previewFile" />
-                </div>
-                <div id="file-queue-empty">
-                  <input type="file" name="fileInput" id="file-input-id" accept="image/*" onchange="previewFile()" class="input-style" />
-                </div>
-                <div id="file-queue-filled" class="d-none" style="text-align: center">
-                  <button class="button-style" id="add-image-btn">V</button>
-                  <button class="button-style" onclick="cancelFilePreview()">X</button>
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>localStorage</legend>
-                <div>
-                  <select id="local-storage-serverfiles" class="input-style" onchange="loadSelectedLocalStorageFile(this)">
-                    <option value="" selected>Charger sauvegarde</option>
-                  </select>
-                </div>
-
-                <div>
-                  <button onclick="loadLocalStorage()">Charger</button>
-                  <button onclick="clearLocalStorage()">Effacer</button>
-                  <button onclick="saveLocalStorage()">Sauvegarder</button>
-                </div>
-              </fieldset>
-
-              <fieldset style="text-align: right">
-                <button id="download-btn">Télécharger Image</button>
-              </fieldset>
-            </section>
-          </div>
-        </div>
-
-        <!-- Here we just add the text only to initiate drag and drop -->
-        <div id="add-text-menu" class="d-none">
-          <div class="container">
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Ajoute un texte</legend>
-                <div>
-                  <input type="text" id="add-text-message" class="input-style" placeholder="Entrez votre message" />
-                  <button id="add-text-btn">Ajoute texte</button>
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <button onclick="deselectAllDragEl()">Annuler</button>
-              </fieldset>
-            </section>
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-          </div>
-        </div>
-
-        <!-- Text already added, we modify it here -->
-        <div id="select-text-menu" class="d-none">
-          <div class="container">
-            <section>
-              <fieldset>
-                <legend>Change le texte selectionné</legend>
-                <div>
-                  <input type="text" id="change-text-message" class="input-style" placeholder="Entrez votre message" />
-                </div>
-                <input type="color" id="change-color-message" class="color-picker" value="#222222" />
-                <label for="change-color-message">Couleur du texte</label>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Google font</legend>
-
-                <div>
-                  <select id="change-font-family" class="input-style" onchange="changeGoogleFontFamily(this)"></select>
-                </div>
-
-                <div>
-                  Niveau de gras:
-                  <select id="bold-text-level" class="input-style">
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="300">300</option>
-                    <option value="400" selected>400 (normal)</option>
-                    <option value="500">500</option>
-                    <option value="600">600</option>
-                    <option value="700">700 (bold)</option>
-                    <option value="800">800</option>
-                    <option value="900">900</option>
-                    <option value="lighter">Lighter</option>
-                    <option value="bolder">Bolder</option>
-                    <option value="inherit">Inherit</option>
-                    <option value="initial">Initial</option>
-                    <option value="revert">Revert</option>
-                    <option value="revert-layer">Revert-layer</option>
-                    <option value="unset">Unset</option>
-                  </select>
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Effet texte</legend>
-                <label id="height-text-value" for="height-text-slider">Taille: 28px</label>
-                <div>
-                  <input type="range" id="height-text-slider" min="1" max="300" value="28" class="input-style" />
-                </div>
-                <label id="rotate-text-value" for="height-text-slider">Rotation: 0°</label>
-                <div>
-                  <div style="display: flex; align-items: center">
-                    <input type="range" id="rotate-text-slider" min="-180" max="180" value="0" class="input-style" oninput="applyRotationBrakeEffect(this)" />
-                    <label for="lock-checkbox" class="lock-label" style="display: flex; align-items: center; margin-left: 10px" onclick="lockRotationBrakeEffect(this)">
-                      <span class="lock-icon">🔒</span>
-                      <span class="unlock-icon d-none">🔓</span>
-                    </label>
-                  </div>
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Autres</legend>
-                <label id="z-index-text-value" for="z-index-text-slider">Ordre d'affichage: 1</label>
-                <div>
-                  <input type="range" id="z-index-text-slider" min="0" max="500" value="1" class="input-style" />
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <button onclick="deselectAllDragEl()">Terminé</button>
-              </fieldset>
-            </section>
-          </div>
-        </div>
-
-        <!-- Here we select the image and make changes to it -->
-        <div id="select-image-menu" class="d-none">
-          <div class="container">
-            <section>
-              <fieldset>
-                <legend>Réglage</legend>
-                <label id="size-image-value" for="size-image-slider">Taille: 100px</label>
-                <div>
-                  <input type="range" id="size-image-slider" min="1" max="1920" value="100" class="input-style" />
-                </div>
-                <label id="rotate-image-value" for="rotate-image-slider">Rotation: 0°</label>
-                <div>
-                  <div style="display: flex; align-items: center">
-                    <input type="range" id="rotate-image-slider" min="-180" max="180" value="0" class="input-style" oninput="applyRotationBrakeEffect(this)" />
-                    <label for="lock-checkbox" class="lock-label" style="display: flex; align-items: center; margin-left: 10px" onclick="lockRotationBrakeEffect(this)">
-                      <span class="lock-icon">🔒</span>
-                      <span class="unlock-icon d-none">🔓</span>
-                    </label>
-                  </div>
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Réglage</legend>
-                <label id="z-index-image-value" for="z-index-image-slider">Ordre d'affichage: 1</label>
-                <div>
-                  <input type="range" id="z-index-image-slider" min="0" max="500" value="1" class="input-style" />
-                </div>
-              </fieldset>
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <!-- <fieldset>
-                <legend></legend>
-              </fieldset> -->
-            </section>
-
-            <section>
-              <fieldset>
-                <legend>Actions</legend>
-                <button id="define-image-as-background" onclick="setImageAsBackground()">Définir comme fond d'écran</button>
-              </fieldset>
-
-              <fieldset>
-                <button onclick="deselectAllDragEl()">Terminé</button>
-              </fieldset>
-            </section>
-          </div>
-        </div>
-
-        <!-- Menu -->
-      </div>
-    </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="./components.js"></script>
+    <script src="./menu.js"></script>
     <script src="./utils.js"></script>
+
     <script src="./common.js"></script>
     <script src="./drag-common.js"></script>
     <script src="./drag-image.js"></script>

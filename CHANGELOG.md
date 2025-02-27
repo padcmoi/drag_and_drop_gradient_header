@@ -32,6 +32,10 @@ All notable changes to this project will be documented in this file.
 - Converted an image element to a background image, with the ability to revert the background image back to an element
 - Added a feature to load remote saves or server files
 - Added an option to snap elements to the visual grid for better alignment
+- Added a CSS stylesheet to enhance the visual appearance of HTML elements
+- Added responsiveness to the menu for better display on different screen sizes
+- Added display of coordinates for elements when using drag and drop or arrow keys
+- Added display of X, Y coordinates for elements when they are selected or moved
 
 ### Changed
 - Refactored `createImageFromData` to be a reusable function with a return of the created image element
@@ -39,11 +43,15 @@ All notable changes to this project will be documented in this file.
 - Added fieldset for each element with a caption
 - Removed the effects of the work container that provided an unpleasant effect on loading
 - The workspace is configured in `px`, the first container retains the maximum height and width values
+- Replaced the old menu with a new, more functional menu with better rendering
+- Replaced the method of how elements are clicked in the modal-windows component, added the ability to hold to move elements
+
 
 ### Fixed
 - Fixed various issues where percentages (%) were used instead of pixels (px)
 - Fixed issue where disabled checkboxes did not have a `cursor-pointer` style in CSS
 - Fixed issues on workspace with `%` and `vh` units that didnt adapt well to different screens by changing them to `px`
 - Fixed menu display issues
+- Fixed errors with the locked or unlocked button for rotation
 
 ### Removed
