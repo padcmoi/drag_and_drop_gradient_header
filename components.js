@@ -94,7 +94,7 @@ class ComponentDropdownWindow {
     this.menuOpen = !this.menuOpen;
 
     const event = new CustomEvent("DropdownWindowMenuStatus", {
-      detail: { menuOpen: this.menuOpen },
+      detail: { menuOpen: !this.menuOpen },
     });
     document.dispatchEvent(event);
   }
