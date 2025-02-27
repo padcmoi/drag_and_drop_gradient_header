@@ -1,7 +1,7 @@
 class ToolWindowForMovingElements {
   constructor(parentElement) {
     this.parentElement = parentElement;
-    this.interval = null;
+    this.interval = { info: null, onClick: null };
 
     this.isDragging = false;
     this.offsetX = 0;
@@ -16,10 +16,10 @@ class ToolWindowForMovingElements {
     this.hideContainer();
   }
 
-  tempInformation(info = "") {
-    clearTimeout(this.interval);
+  tempInformation(info = "", delay) {
+    clearTimeout(this.interval.info);
     this.bottomInformations.textContent = `${info}`;
-    this.interval = setTimeout(() => (this.bottomInformations.textContent = ""), 5000);
+    this.interval.info = setTimeout(() => (this.bottomInformations.textContent = ""), isNaN(delay) ? 5000 : parseInt(delay));
   }
 
   hideContainer(status = true) {
@@ -143,7 +143,12 @@ class ToolWindowForMovingElements {
       button.style.filter = "sepia(0)";
       button.style.transform = "scale(1)";
     };
-    button.onclick = onClick;
+    button.onmousedown = () => {
+      clearInterval(this.interval.onClick);
+      onClick();
+      this.interval.onClick = setInterval(() => onClick(), 100);
+    };
+    button.onmouseup = () => clearInterval(this.interval.onClick);
     return button;
   }
 

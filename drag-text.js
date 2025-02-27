@@ -47,18 +47,22 @@ function displayTextModal() {
       functionButtonUp: (value) => {
         selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) - value}px`;
         saveTextState();
+        displayElementCoordinatesXY(selectedSpan);
       },
       functionButtonLeft: (value) => {
         selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) - parseInt(value)}px`;
         saveTextState();
+        displayElementCoordinatesXY(selectedSpan);
       },
       functionButtonRight: (value) => {
         selectedSpan.style.left = `${parseInt(selectedSpan.style.left, 10) + value}px`;
         saveTextState();
+        displayElementCoordinatesXY(selectedSpan);
       },
       functionButtonDown: (value) => {
         selectedSpan.style.top = `${parseInt(selectedSpan.style.top, 10) + value}px`;
         saveTextState();
+        displayElementCoordinatesXY(selectedSpan);
       },
     });
     toolWindowForMovingElements.hideContainer(false);
@@ -66,16 +70,33 @@ function displayTextModal() {
 }
 
 function addEventListeners(span) {
+  let deltaX, deltaY;
+
   span.addEventListener("dragstart", function (e) {
     e.dataTransfer.setData("text/plain", null);
     const rect = span.getBoundingClientRect();
     e.dataTransfer.setDragImage(span, e.clientX - rect.left, e.clientY - rect.top);
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    deltaX = e.clientX - centerX;
+    deltaY = e.clientY - centerY;
   });
 
   span.addEventListener("dragend", function (e) {
     const rect = document.getElementById("container-draggable-el").getBoundingClientRect();
-    span.style.top = `${e.clientY - rect.top}px`;
-    span.style.left = `${e.clientX - rect.left}px`;
+    span.style.top = `${e.clientY - rect.top - deltaY}px`;
+    span.style.left = `${e.clientX - rect.left - deltaX}px`;
+
+    // Magnet enabled
+    if (loadCommonState("magnetContainerEnabled", "false") === "true") {
+      const roundToNearest20 = (value) => Math.round(value / 20) * 20;
+      span.style.top = `${roundToNearest20(e.clientY - rect.top - deltaY)}px`;
+      span.style.left = `${roundToNearest20(e.clientX - rect.left - deltaX)}px`;
+    }
+
+    displayElementCoordinatesXY(span);
+
     saveTextState();
   });
 
@@ -106,6 +127,7 @@ function addEventListeners(span) {
     document.getElementById("bold-text-level").value = span.style.fontWeight || "normal";
 
     displayTextModal();
+    displayElementCoordinatesXY(span);
   });
 
   span.addEventListener("wheel", function (e) {
@@ -158,6 +180,7 @@ document.getElementById("add-text-btn").addEventListener("click", function (even
   saveTextState();
 
   displayTextModal();
+  displayElementCoordinatesXY(span);
 });
 
 document.getElementById("change-text-message").addEventListener("input", function () {
